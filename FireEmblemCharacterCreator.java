@@ -215,6 +215,48 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		hairBlue.setBounds(688, 11, 215, 38);
 		contentPane.add(hairBlue);
 		
+		//----------EYE SLIDERS------------------
+		JLabel lblHairColorRed = new JLabel("Hair Color: Red");
+		lblHairColorRed.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblHairColorRed.setBounds(10, 31, 124, 21);
+		contentPane.add(lblHairColorRed);
+		
+		JSlider eyeRed = new JSlider();
+		eyeRed.setValue(64);
+		eyeRed.setMajorTickSpacing(64);
+		eyeRed.setPaintTicks(true);
+		eyeRed.setPaintLabels(true);
+		eyeRed.setMaximum(255);
+		eyeRed.setBounds(165, 31, 215, 38);
+		contentPane.add(eyeRed);
+		
+		JLabel lblGreen = new JLabel("Green");
+		lblGreen.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblGreen.setBounds(390, 34, 46, 21);hair
+		contentPane.add(lblGreen);
+		
+		JSlider eyeGreen = new JSlider();
+		eyeGreen.setPaintTicks(true);
+		eyeGreen.setPaintLabels(true);
+		eyeGreen.setMaximum(255);
+		eyeGreen.setMajorTickSpacing(64);
+		eyeGreen.setBounds(430, 31, 215, 38);
+		contentPane.add(eyeGreen);
+		
+		JLabel lblBlue = new JLabel("Blue");
+		lblBlue.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblBlue.setBounds(655, 34, 46, 21);
+		contentPane.add(lblBlue);
+		
+		JSlider eyeBlue = new JSlider();
+		eyeBlue.setValue(24);
+		eyeBlue.setPaintTicks(true);
+		eyeBlue.setPaintLabels(true);
+		eyeBlue.setMaximum(255);
+		eyeBlue.setMajorTickSpacing(64);
+		eyeBlue.setBounds(688, 31, 215, 38);
+		contentPane.add(eyeBlue);
+		
 		//---------SKIN SLIDERS------------------
 		JSlider skinBlue = new JSlider();
 		skinBlue.setValue(110);
@@ -715,7 +757,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				if(pixel.getAlpha()==0){
 					continue;
 				}
-				newPixel = pixelParser(pixel);
+				newPixel = facePixelParser(pixel);
 				//newPixel = pixel;
 				portrait.setRGB(i*2, j*2, newPixel.getRGB());
 				portrait.setRGB(i*2+1, j*2, newPixel.getRGB());
@@ -793,6 +835,64 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				break;
 		case 8: newPixel = skinColor.darker().darker().darker();
 				break;
+		case 9: newPixel = metalColor.brighter();
+				break;
+		case 10: newPixel = metalColor;
+				break;
+		case 11: newPixel = metalColor.darker();
+				break;
+		case 12: newPixel = trimColor.brighter();
+				break;
+		case 13: newPixel = trimColor;
+				break;
+		case 14: newPixel = trimColor.darker();
+				break;
+		case 15: newPixel = clothColor.brighter();
+				break;
+		case 16: newPixel = clothColor;
+				break;
+		case 17: newPixel = clothColor.darker();
+				break;
+		case 18: newPixel = leatherColor.brighter();
+				break;
+		case 19: newPixel = leatherColor;
+				break;
+		case 20: newPixel = leatherColor.darker();
+				break;
+		default: newPixel = Color.WHITE;
+		}
+		return newPixel;
+	}
+	
+	Color facePixelParser(Color pixel){
+		Color newPixel = null;
+		//double check this line 
+		if(pixel.getAlpha() == 0){
+			newPixel = blankColor;
+			return newPixel;
+		}
+		int redIndex = pixel.getRed()/10; 
+				//System.out.println(redIndex);
+		switch(redIndex){
+		case 0: newPixel = outlineColor;
+				break;
+		case 1: newPixel = eyeColor.brighter();
+				break;
+		case 2: newPixel = eyeColor;
+				break;
+		case 3: newPixel = eyeColor.darker();
+				break;
+		case 4: newPixel = skinColor.brighter();
+				break;
+		case 5: newPixel = skinColor;
+				break;
+		case 6: newPixel = skinColor.darker();
+				break;
+		case 7: newPixel = skinColor.darker().darker();
+				break;
+		case 8: newPixel = skinColor.darker().darker().darker();
+				break;
+		//9-20 shouldn't get used, but I'll keep them for now
 		case 9: newPixel = metalColor.brighter();
 				break;
 		case 10: newPixel = metalColor;
