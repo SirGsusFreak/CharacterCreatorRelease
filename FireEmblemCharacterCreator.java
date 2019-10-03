@@ -170,6 +170,10 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//-----------HAIR SLIDERS----------------
+		//Change to ColorPicker()
+		//https://docs.oracle.com/javafx/2/ui_controls/color-picker.htm
+		
 		JLabel lblHairColorRed = new JLabel("Hair Color: Red");
 		lblHairColorRed.setFont(new Font("Calibri", Font.BOLD, 13));
 		lblHairColorRed.setBounds(10, 11, 124, 21);
@@ -211,6 +215,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		hairBlue.setBounds(688, 11, 215, 38);
 		contentPane.add(hairBlue);
 		
+		//---------SKIN SLIDERS------------------
 		JSlider skinBlue = new JSlider();
 		skinBlue.setValue(110);
 		skinBlue.setPaintTicks(true);
@@ -253,6 +258,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		lblSkinColorRed.setBounds(10, 60, 124, 21);
 		contentPane.add(lblSkinColorRed);
 		
+		//-------------METAL SLIDERS----------------
 		JSlider metalBlue = new JSlider();
 		metalBlue.setValue(100);
 		metalBlue.setPaintTicks(true);
@@ -295,6 +301,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		lblArmorMetalColor.setBounds(10, 109, 131, 21);
 		contentPane.add(lblArmorMetalColor);
 		
+		//---------------TRIM SLIDERS------------------
 		JSlider trimBlue = new JSlider();
 		trimBlue.setValue(82);
 		trimBlue.setPaintTicks(true);
@@ -332,6 +339,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		trimRed.setBounds(165, 158, 215, 38);
 		contentPane.add(trimRed);
 		
+		//-----------METAL TRIM?----------------------
 		JLabel lblMetalTrimColor = new JLabel("Armor Trim Color: Red");
 		lblMetalTrimColor.setFont(new Font("Calibri", Font.BOLD, 13));
 		lblMetalTrimColor.setBounds(10, 158, 131, 21);
@@ -365,6 +373,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		label_10.setBounds(390, 210, 46, 21);
 		contentPane.add(label_10);
 		
+		//-----------CLOTH SLIDERS-------------
 		JSlider clothRed = new JSlider();
 		clothRed.setValue(82);
 		clothRed.setPaintTicks(true);
@@ -407,6 +416,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		label_13.setBounds(390, 259, 46, 21);
 		contentPane.add(label_13);
 		
+		//---------LEATHER SLIDERS--------------
 		JSlider leatherRed = new JSlider();
 		leatherRed.setValue(148);
 		leatherRed.setPaintTicks(true);
@@ -428,6 +438,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		tokenPanel = new ImagePanel(path + "resources/BlankTok.png");
 		tokenPanel.setBounds(224, 403, 128, 128);
 		contentPane.add(tokenPanel);
+		
 		
 		JLabel lblHair = new JLabel("Hair");
 		lblHair.setFont(new Font("Calibri", Font.BOLD, 13));
@@ -488,6 +499,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		lblToken.setBounds(224, 323, 46, 21);
 		contentPane.add(lblToken);
 		
+		//---------XY OFFSETS--------------------
 		JSlider hairXOffset = new JSlider();
 		hairXOffset.setValue(0);
 		hairXOffset.setPaintTicks(true);
@@ -583,6 +595,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		btnNewButton.setBounds(373, 528, 113, 38);
 		contentPane.add(btnNewButton);
 		
+		//--------LISTENERS--------------------
 		hairRed.addChangeListener(this);
 		hairGreen.addChangeListener(this);
 		hairBlue.addChangeListener(this);
@@ -745,6 +758,13 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		
 	}
 	
+	//RECOLORS EVERYTHING
+		//The included images all have red values corresponding to what they are.
+		//This is why eye and hair color match, because they share the same range of values (1-3)
+		//E.g. face color is 51, the lighter parts are 42, and darker parts are 60+, corresponding to case 4-8.
+			//Given that the max value is 25 (255), if the image eyes were changed to have red values above 210,
+			//they could be separated from the hair
+			//Alternatively, if the pixel could be confirmed as part of the hair or face, a simple if statement would fix it
 	Color pixelParser(Color pixel){
 		Color newPixel = null;
 		//double check this line 
@@ -752,8 +772,8 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 			newPixel = blankColor;
 			return newPixel;
 		}
-		int redIndex = pixel.getRed()/10;
-		//System.out.println(redIndex);
+		int redIndex = pixel.getRed()/10; 
+				//System.out.println(redIndex);
 		switch(redIndex){
 		case 0: newPixel = outlineColor;
 				break;
@@ -802,6 +822,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		return newPixel;
 	}
 	
+	//If slider value changes, update image
 	public void stateChanged(ChangeEvent e){
 		JSlider src = (JSlider) e.getSource();
 		int index = sliders.indexOf(src);
@@ -811,32 +832,32 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		int green;
 		//System.out.println(index);
 		switch(index){
-		case 0:
+		case 0: //hair_red changed
 			green = hairColor.getGreen();
 			blue = hairColor.getBlue();
 			hairColor = new Color(val,green,blue);
 			break;
-		case 1:
+		case 1: //hair_green changed
 			red = hairColor.getRed();
 			blue = hairColor.getBlue();
 			hairColor = new Color(red,val,blue);
 			break;
-		case 2:
+		case 2: //hair_blue changed
 			red = hairColor.getRed();
 			green = hairColor.getGreen();
 			hairColor = new Color(red, green,val);
 			break;
-		case 3:
+		case 3: //skin_red
 			green = skinColor.getGreen();
 			blue = skinColor.getBlue();
 			skinColor = new Color(val, green,blue);
 			break;
-		case 4:
+		case 4: //skin_green
 			red = skinColor.getRed();
 			blue = skinColor.getBlue();
 			skinColor = new Color(red,val,blue);
 			break;
-		case 5:
+		case 5: //skin_blue
 			red = skinColor.getRed();
 			green = skinColor.getGreen();
 			skinColor = new Color(red,green,val);
@@ -901,10 +922,10 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 			green = leatherColor.getGreen();
 			leatherColor = new Color(red,green,val);
 			break;
-		case 18:
+		case 18: //hair_X
 			hairXOffsetVal = val;
 			break;
-		case 19:
+		case 19: //hair_Y
 			hairYOffsetVal = val;
 			break;
 		case 20:
