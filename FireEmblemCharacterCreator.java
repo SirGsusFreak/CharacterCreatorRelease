@@ -1,7 +1,14 @@
-package characterCreator;
+/**	
+ *  FireEmblemCharacterCreator created by TheFlyingMinotaur
+ *  Updated by Baconmaster120
+ *  Additional art resources provided by Iscaneus
+ */
 
+package CharacterCreator;
+import CharacterCreator.ImagePanel;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.imageio.ImageIO;
@@ -14,6 +21,8 @@ import javax.swing.JLabel;
 import java.awt.image.WritableRaster;
 
 import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -27,17 +36,24 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 
 
 public class FireEmblemCharacterCreator extends JFrame implements ChangeListener, ItemListener, ActionListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7435578396712824308L;
 	BufferedImage portrait;
 	BufferedImage token;
 	BufferedImage hair;
 	BufferedImage hairb;
 	BufferedImage face;
+	BufferedImage accessory;
 	BufferedImage armor;
 	BufferedImage blankPortrait;
 	BufferedImage blankToken;
@@ -46,15 +62,29 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 	ImagePanel portraitPanel;
 	ImagePanel tokenPanel;
 	
+	JLabel hairRect = new JLabel();
+	JLabel eyeRect = new JLabel();
+	JLabel skinRect = new JLabel();
+	JLabel metalRect = new JLabel();
+	JLabel trimRect = new JLabel();
+	JLabel clothRect = new JLabel();
+	JLabel leatherRect = new JLabel();
+	JLabel accessoryRect = new JLabel();
+	
+	JTextField exportFileName = new JTextField();
+	
+	
 	ArrayList<JSlider> sliders = new ArrayList<JSlider>();
 	ArrayList<JComboBox<String>> boxes = new ArrayList<JComboBox<String>>();
 	
 	Color skinColor = new Color(192,140,110,255);
 	Color hairColor = new Color(64,50,25,255);
+	Color eyeColor = new Color(64,50,25,255);
 	Color metalColor= new Color(100,100,100,255);
 	Color trimColor= new Color(247,173,82,255);
 	Color clothColor= new Color(82,82,115,255);
 	Color leatherColor= new Color(148,100,66,255);
+	Color accessoryColor = new Color(0,0,0,255);
 	Color outlineColor = new Color(0,0,0,255);
 	Color blankColor = new Color(0,0,0,0);
 	
@@ -64,12 +94,26 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 	int faceYOffsetVal=0;
 	int armorXOffsetVal=0;
 	int armorYOffsetVal=0;
+	int accessoryXOffsetVal=0;
+	int accessoryYOffsetVal=0;
+	
+	//Button strings
+	private static final String BTNEXPORT = "Export";
+	private static final String BTNHAIRCOLOR = "Hair Color";
+	private static final String BTNEYECOLOR = "Eye/Beard Color";
+	private static final String BTNSKINCOLOR = "Skin Color";
+	private static final String BTNMETALCOLOR = "Metal Color";
+	private static final String BTNTRIMCOLOR = "Trim Color";
+	private static final String BTNCLOTHCOLOR = "Cloth Color";
+	private static final String BTNLEATHERCOLOR = "Leather Color";
+	private static final String BTNACCESSORYCOLOR = "Accessory Color";
 	
 	File folder;
 	File[] listOfFiles;
 	ArrayList<String> hairs = new ArrayList<String>();
 	ArrayList<String> faces = new ArrayList<String>();
 	ArrayList<String> armors = new ArrayList<String>();
+	ArrayList<String> accessories = new ArrayList<String>();
 	ArrayList<String> tokens = new ArrayList<String>();
 
 	private JPanel contentPane;
@@ -105,6 +149,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		
 		folder = new File(path + "resources");
 		listOfFiles  = folder.listFiles();
+		
+		accessory = null;
+		try {
+		    accessory = ImageIO.read(new File(path + "resources/Empty.png"));
+		} catch (IOException ex) {
+		}
 		
 		hair = null;
 		try {
@@ -164,342 +214,115 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		setFont(new Font("Calibri", Font.BOLD, 12));
 		setTitle("Fire Emblem Character Creator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 932, 610);
+		setBounds(100, 100, 925, 450); //was xx932x
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+			
 		
-		//-----------HAIR SLIDERS----------------
-		//Change to ColorPicker()
-		//https://docs.oracle.com/javafx/2/ui_controls/color-picker.htm
+		//----------COLOR CHOOSER BUTTONS-----------------------------
+		JButton hairCCBtn = new JButton(BTNHAIRCOLOR);
+		hairCCBtn.setBounds(380,30,130,50);
+		hairCCBtn.addActionListener(this);
+		contentPane.add(hairCCBtn);
 		
-		JLabel lblHairColorRed = new JLabel("Hair Color: Red");
-		lblHairColorRed.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblHairColorRed.setBounds(10, 11, 124, 21);
-		contentPane.add(lblHairColorRed);
+		hairRect.setBounds(380, 80, 130, 20);
+		hairRect.setOpaque(true);
+		hairRect.setBackground(hairColor);
+		contentPane.add(hairRect);
 		
-		JSlider hairRed = new JSlider();
-		hairRed.setValue(64);
-		hairRed.setMajorTickSpacing(64);
-		hairRed.setPaintTicks(true);
-		hairRed.setPaintLabels(true);
-		hairRed.setMaximum(255);
-		hairRed.setBounds(165, 11, 215, 38);
-		contentPane.add(hairRed);
+		JButton eyeCCBtn = new JButton(BTNEYECOLOR);
+		eyeCCBtn.setBounds(510,30,130,50);
+		eyeCCBtn.addActionListener(this);
+		contentPane.add(eyeCCBtn);
+		//JLabel eyeRect = new JLabel();
+		eyeRect.setBounds(510, 80, 130, 20);
+		eyeRect.setOpaque(true);
+		eyeRect.setBackground(eyeColor);
+		contentPane.add(eyeRect);
 		
-		JLabel lblGreen = new JLabel("Green");
-		lblGreen.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblGreen.setBounds(390, 14, 46, 21);
-		contentPane.add(lblGreen);
+		JButton skinCCBtn = new JButton(BTNSKINCOLOR);
+		skinCCBtn.setBounds(640,30,130,50);
+		skinCCBtn.addActionListener(this);
+		contentPane.add(skinCCBtn);
+		//JLabel skinRect = new JLabel();
+		skinRect.setBounds(640, 80, 130, 20);
+		skinRect.setOpaque(true);
+		skinRect.setBackground(skinColor);
+		contentPane.add(skinRect);
 		
-		JSlider hairGreen = new JSlider();
-		hairGreen.setPaintTicks(true);
-		hairGreen.setPaintLabels(true);
-		hairGreen.setMaximum(255);
-		hairGreen.setMajorTickSpacing(64);
-		hairGreen.setBounds(430, 11, 215, 38);
-		contentPane.add(hairGreen);
+		JButton metalCCBtn = new JButton(BTNMETALCOLOR);
+		metalCCBtn.setBounds(380,100,130,50);
+		metalCCBtn.addActionListener(this);
+		contentPane.add(metalCCBtn);
+		//JLabel metalRect = new JLabel();
+		metalRect.setBounds(380, 150, 130, 20);
+		metalRect.setOpaque(true);
+		metalRect.setBackground(metalColor);
+		contentPane.add(metalRect);
 		
-		JLabel lblBlue = new JLabel("Blue");
-		lblBlue.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblBlue.setBounds(655, 14, 46, 21);
-		contentPane.add(lblBlue);
+		JButton trimCCBtn = new JButton(BTNTRIMCOLOR);
+		trimCCBtn.setBounds(510,100,130,50);
+		trimCCBtn.addActionListener(this);
+		contentPane.add(trimCCBtn);
+		//JLabel trimRect = new JLabel();
+		trimRect.setBounds(510, 150, 130, 20);
+		trimRect.setOpaque(true);
+		trimRect.setBackground(trimColor);
+		contentPane.add(trimRect);
 		
-		JSlider hairBlue = new JSlider();
-		hairBlue.setValue(24);
-		hairBlue.setPaintTicks(true);
-		hairBlue.setPaintLabels(true);
-		hairBlue.setMaximum(255);
-		hairBlue.setMajorTickSpacing(64);
-		hairBlue.setBounds(688, 11, 215, 38);
-		contentPane.add(hairBlue);
+		JButton clothCCBtn = new JButton(BTNCLOTHCOLOR);
+		clothCCBtn.setBounds(640,100,130,50);
+		clothCCBtn.addActionListener(this);
+		contentPane.add(clothCCBtn);
+		//JLabel clothRect = new JLabel();
+		clothRect.setBounds(640, 150, 130, 20);
+		clothRect.setOpaque(true);
+		clothRect.setBackground(clothColor);
+		contentPane.add(clothRect);
 		
-		//----------EYE SLIDERS------------------
-		JLabel lblHairColorRed = new JLabel("Hair Color: Red");
-		lblHairColorRed.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblHairColorRed.setBounds(10, 31, 124, 21);
-		contentPane.add(lblHairColorRed);
+		JButton leatherCCBtn = new JButton(BTNLEATHERCOLOR);
+		leatherCCBtn.setBounds(770,100,130,50);
+		leatherCCBtn.addActionListener(this);
+		contentPane.add(leatherCCBtn);
+		//JLabel leatherRect = new JLabel();
+		leatherRect.setBounds(770, 150, 130, 20);
+		leatherRect.setOpaque(true);
+		leatherRect.setBackground(leatherColor);
+		contentPane.add(leatherRect);
 		
-		JSlider eyeRed = new JSlider();
-		eyeRed.setValue(64);
-		eyeRed.setMajorTickSpacing(64);
-		eyeRed.setPaintTicks(true);
-		eyeRed.setPaintLabels(true);
-		eyeRed.setMaximum(255);
-		eyeRed.setBounds(165, 31, 215, 38);
-		contentPane.add(eyeRed);
+		JButton accessoryCCBtn = new JButton(BTNACCESSORYCOLOR);
+		accessoryCCBtn.setBounds(770,30,130,50);
+		accessoryCCBtn.addActionListener(this);
+		contentPane.add(accessoryCCBtn);
+		//JLabel leatherRect = new JLabel();
+		accessoryRect.setBounds(770, 80, 130, 20);
+		accessoryRect.setOpaque(true);
+		accessoryRect.setBackground(accessoryColor);
+		contentPane.add(accessoryRect);
 		
-		JLabel lblGreen = new JLabel("Green");
-		lblGreen.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblGreen.setBounds(390, 34, 46, 21);hair
-		contentPane.add(lblGreen);
+		//JColorChooser hairColorChooser = new JColorChooser();
+		//hairColorChooser.setSize(500,500);
+		//hairColorChooser.setVisible(true);
+		//hairColorChooser.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		
-		JSlider eyeGreen = new JSlider();
-		eyeGreen.setPaintTicks(true);
-		eyeGreen.setPaintLabels(true);
-		eyeGreen.setMaximum(255);
-		eyeGreen.setMajorTickSpacing(64);
-		eyeGreen.setBounds(430, 31, 215, 38);
-		contentPane.add(eyeGreen);
-		
-		JLabel lblBlue = new JLabel("Blue");
-		lblBlue.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblBlue.setBounds(655, 34, 46, 21);
-		contentPane.add(lblBlue);
-		
-		JSlider eyeBlue = new JSlider();
-		eyeBlue.setValue(24);
-		eyeBlue.setPaintTicks(true);
-		eyeBlue.setPaintLabels(true);
-		eyeBlue.setMaximum(255);
-		eyeBlue.setMajorTickSpacing(64);
-		eyeBlue.setBounds(688, 31, 215, 38);
-		contentPane.add(eyeBlue);
-		
-		//---------SKIN SLIDERS------------------
-		JSlider skinBlue = new JSlider();
-		skinBlue.setValue(110);
-		skinBlue.setPaintTicks(true);
-		skinBlue.setPaintLabels(true);
-		skinBlue.setMaximum(255);
-		skinBlue.setMajorTickSpacing(64);
-		skinBlue.setBounds(688, 60, 215, 38);
-		contentPane.add(skinBlue);
-		
-		JLabel label = new JLabel("Blue");
-		label.setFont(new Font("Calibri", Font.BOLD, 13));
-		label.setBounds(655, 63, 46, 21);
-		contentPane.add(label);
-		
-		JSlider skinGreen = new JSlider();
-		skinGreen.setValue(140);
-		skinGreen.setPaintTicks(true);
-		skinGreen.setPaintLabels(true);
-		skinGreen.setMaximum(255);
-		skinGreen.setMajorTickSpacing(64);
-		skinGreen.setBounds(430, 60, 215, 38);
-		contentPane.add(skinGreen);
-		
-		JLabel label_1 = new JLabel("Green");
-		label_1.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_1.setBounds(390, 63, 46, 21);
-		contentPane.add(label_1);
-		
-		JSlider skinRed = new JSlider();
-		skinRed.setValue(192);
-		skinRed.setPaintTicks(true);
-		skinRed.setPaintLabels(true);
-		skinRed.setMaximum(255);
-		skinRed.setMajorTickSpacing(64);
-		skinRed.setBounds(165, 60, 215, 38);
-		contentPane.add(skinRed);
-		
-		JLabel lblSkinColorRed = new JLabel("Skin Color: Red");
-		lblSkinColorRed.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblSkinColorRed.setBounds(10, 60, 124, 21);
-		contentPane.add(lblSkinColorRed);
-		
-		//-------------METAL SLIDERS----------------
-		JSlider metalBlue = new JSlider();
-		metalBlue.setValue(100);
-		metalBlue.setPaintTicks(true);
-		metalBlue.setPaintLabels(true);
-		metalBlue.setMaximum(255);
-		metalBlue.setMajorTickSpacing(64);
-		metalBlue.setBounds(688, 109, 215, 38);
-		contentPane.add(metalBlue);
-		
-		JLabel label_3 = new JLabel("Blue");
-		label_3.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_3.setBounds(655, 112, 46, 21);
-		contentPane.add(label_3);
-		
-		JSlider metalGreen = new JSlider();
-		metalGreen.setValue(100);
-		metalGreen.setPaintTicks(true);
-		metalGreen.setPaintLabels(true);
-		metalGreen.setMaximum(255);
-		metalGreen.setMajorTickSpacing(64);
-		metalGreen.setBounds(430, 109, 215, 38);
-		contentPane.add(metalGreen);
-		
-		JLabel label_4 = new JLabel("Green");
-		label_4.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_4.setBounds(390, 112, 46, 21);
-		contentPane.add(label_4);
-		
-		JSlider metalRed = new JSlider();
-		metalRed.setValue(100);
-		metalRed.setPaintTicks(true);
-		metalRed.setPaintLabels(true);
-		metalRed.setMaximum(255);
-		metalRed.setMajorTickSpacing(64);
-		metalRed.setBounds(165, 109, 215, 38);
-		contentPane.add(metalRed);
-		
-		JLabel lblArmorMetalColor = new JLabel("Armor Metal Color: Red");
-		lblArmorMetalColor.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblArmorMetalColor.setBounds(10, 109, 131, 21);
-		contentPane.add(lblArmorMetalColor);
-		
-		//---------------TRIM SLIDERS------------------
-		JSlider trimBlue = new JSlider();
-		trimBlue.setValue(82);
-		trimBlue.setPaintTicks(true);
-		trimBlue.setPaintLabels(true);
-		trimBlue.setMaximum(255);
-		trimBlue.setMajorTickSpacing(64);
-		trimBlue.setBounds(688, 158, 215, 38);
-		contentPane.add(trimBlue);
-		
-		JLabel label_6 = new JLabel("Blue");
-		label_6.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_6.setBounds(655, 161, 46, 21);
-		contentPane.add(label_6);
-		
-		JSlider trimGreen = new JSlider();
-		trimGreen.setValue(173);
-		trimGreen.setPaintTicks(true);
-		trimGreen.setPaintLabels(true);
-		trimGreen.setMaximum(255);
-		trimGreen.setMajorTickSpacing(64);
-		trimGreen.setBounds(430, 158, 215, 38);
-		contentPane.add(trimGreen);
-		
-		JLabel label_7 = new JLabel("Green");
-		label_7.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_7.setBounds(390, 161, 46, 21);
-		contentPane.add(label_7);
-		
-		JSlider trimRed = new JSlider();
-		trimRed.setValue(247);
-		trimRed.setPaintTicks(true);
-		trimRed.setPaintLabels(true);
-		trimRed.setMaximum(255);
-		trimRed.setMajorTickSpacing(64);
-		trimRed.setBounds(165, 158, 215, 38);
-		contentPane.add(trimRed);
-		
-		//-----------METAL TRIM?----------------------
-		JLabel lblMetalTrimColor = new JLabel("Armor Trim Color: Red");
-		lblMetalTrimColor.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblMetalTrimColor.setBounds(10, 158, 131, 21);
-		contentPane.add(lblMetalTrimColor);
-		
-		JSlider clothBlue = new JSlider();
-		clothBlue.setValue(115);
-		clothBlue.setPaintTicks(true);
-		clothBlue.setPaintLabels(true);
-		clothBlue.setMaximum(255);
-		clothBlue.setMajorTickSpacing(64);
-		clothBlue.setBounds(688, 207, 215, 38);
-		contentPane.add(clothBlue);
-		
-		JLabel label_9 = new JLabel("Blue");
-		label_9.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_9.setBounds(655, 210, 46, 21);
-		contentPane.add(label_9);
-		
-		JSlider clothGreen = new JSlider();
-		clothGreen.setValue(82);
-		clothGreen.setPaintTicks(true);
-		clothGreen.setPaintLabels(true);
-		clothGreen.setMaximum(255);
-		clothGreen.setMajorTickSpacing(64);
-		clothGreen.setBounds(430, 207, 215, 38);
-		contentPane.add(clothGreen);
-		
-		JLabel label_10 = new JLabel("Green");
-		label_10.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_10.setBounds(390, 210, 46, 21);
-		contentPane.add(label_10);
-		
-		//-----------CLOTH SLIDERS-------------
-		JSlider clothRed = new JSlider();
-		clothRed.setValue(82);
-		clothRed.setPaintTicks(true);
-		clothRed.setPaintLabels(true);
-		clothRed.setMaximum(255);
-		clothRed.setMajorTickSpacing(64);
-		clothRed.setBounds(165, 207, 215, 38);
-		contentPane.add(clothRed);
-		
-		JLabel lblArmorClothColor = new JLabel("Armor Cloth Color: Red");
-		lblArmorClothColor.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblArmorClothColor.setBounds(10, 207, 131, 21);
-		contentPane.add(lblArmorClothColor);
-		
-		JSlider leatherBlue = new JSlider();
-		leatherBlue.setValue(66);
-		leatherBlue.setPaintTicks(true);
-		leatherBlue.setPaintLabels(true);
-		leatherBlue.setMaximum(255);
-		leatherBlue.setMajorTickSpacing(64);
-		leatherBlue.setBounds(688, 256, 215, 38);
-		contentPane.add(leatherBlue);
-		
-		JLabel label_12 = new JLabel("Blue");
-		label_12.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_12.setBounds(655, 259, 46, 21);
-		contentPane.add(label_12);
-		
-		JSlider leatherGreen = new JSlider();
-		leatherGreen.setValue(100);
-		leatherGreen.setPaintTicks(true);
-		leatherGreen.setPaintLabels(true);
-		leatherGreen.setMaximum(255);
-		leatherGreen.setMajorTickSpacing(64);
-		leatherGreen.setBounds(430, 256, 215, 38);
-		contentPane.add(leatherGreen);
-		
-		JLabel label_13 = new JLabel("Green");
-		label_13.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_13.setBounds(390, 259, 46, 21);
-		contentPane.add(label_13);
-		
-		//---------LEATHER SLIDERS--------------
-		JSlider leatherRed = new JSlider();
-		leatherRed.setValue(148);
-		leatherRed.setPaintTicks(true);
-		leatherRed.setPaintLabels(true);
-		leatherRed.setMaximum(255);
-		leatherRed.setMajorTickSpacing(64);
-		leatherRed.setBounds(165, 256, 215, 38);
-		contentPane.add(leatherRed);
-		
-		JLabel lblArmorLeatherColor = new JLabel("Armor Leather Color: Red");
-		lblArmorLeatherColor.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblArmorLeatherColor.setBounds(10, 256, 145, 21);
-		contentPane.add(lblArmorLeatherColor);
-		
+		//PORTRAIT BOX
 		portraitPanel = new ImagePanel(path + "resources/BlankPortrait.png");
-		portraitPanel.setBounds(22, 331, 192, 192);
+		portraitPanel.setBounds(22, 10, 192, 192);
 		contentPane.add(portraitPanel);
 		
+		//TOKEN BOX
 		tokenPanel = new ImagePanel(path + "resources/BlankTok.png");
-		tokenPanel.setBounds(224, 403, 128, 128);
+		tokenPanel.setBounds(224, 10, 128, 128);
 		contentPane.add(tokenPanel);
 		
-		
-		JLabel lblHair = new JLabel("Hair");
-		lblHair.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblHair.setBounds(373, 320, 46, 21);
-		contentPane.add(lblHair);
-		
-		JLabel lblFace = new JLabel("Face");
-		lblFace.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblFace.setBounds(557, 323, 46, 21);
-		contentPane.add(lblFace);
-		
-		JLabel lblArmor = new JLabel("Armor");
-		lblArmor.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblArmor.setBounds(734, 323, 46, 21);
-		contentPane.add(lblArmor);
 		
 		hairs.add("Empty.png");
 		faces.add("Empty.png");
 		armors.add("Empty.png");
+		accessories.add("Empty.png");
 		tokens.add("Emptytok.png");
 		
 		System.out.println(listOfFiles.length);
@@ -514,34 +337,69 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 			else if(filename.contains("Armor.png")){
 				armors.add(filename);
 			}
+			else if(filename.contains("Acc.png")) {
+				accessories.add(filename);
+			}
 			else if(filename.contains("Token.png")){
 				tokens.add(filename);
 			}
 		}
 		
-		JComboBox<String> comboBox = new JComboBox<String>(hairs.toArray(new String[hairs.size()]));
-		comboBox.setBounds(373, 352, 131, 20);
-		contentPane.add(comboBox);
+		//ComboBox labels
+		JLabel lblHair = new JLabel("Hair");
+		lblHair.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblHair.setBounds(41, 202, 131, 21);
+		contentPane.add(lblHair);
 		
-		JComboBox<String> comboBox_1 = new JComboBox<String>(faces.toArray(new String[faces.size()]));
-		comboBox_1.setBounds(557, 355, 131, 20);
-		contentPane.add(comboBox_1);
+		JLabel lblFace = new JLabel("Face");
+		lblFace.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblFace.setBounds(231, 202, 131, 21);
+		contentPane.add(lblFace);
 		
-		JComboBox<String> comboBox_2 = new JComboBox<String>(armors.toArray(new String[armors.size()]));
-		comboBox_2.setBounds(734, 352, 131, 20);
-		contentPane.add(comboBox_2);
+		JLabel lblArmor = new JLabel("Armor");
+		lblArmor.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblArmor.setBounds(421, 202, 131, 21);
+		contentPane.add(lblArmor);
 		
-		JComboBox<String> comboBox_3 = new JComboBox<String>(tokens.toArray(new String[tokens.size()]));
-		comboBox_3.setBounds(224, 352, 120, 20);
-		comboBox_3.setMaximumRowCount(3);
-		contentPane.add(comboBox_3);
+		JLabel lblAccessory = new JLabel("Accessory");
+		lblAccessory.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblAccessory.setBounds(611, 202, 131, 21);
+		contentPane.add(lblAccessory);
+		
+		//DROPBOXES
+		JComboBox<String> comboBox_hairs = new JComboBox<String>(hairs.toArray(new String[hairs.size()]));
+		comboBox_hairs.setBounds(40, 220, 131, 20);
+		contentPane.add(comboBox_hairs);
+		
+		JComboBox<String> comboBox_faces = new JComboBox<String>(faces.toArray(new String[faces.size()]));
+		comboBox_faces.setBounds(230, 220, 131, 20);
+		contentPane.add(comboBox_faces);
+		
+		JComboBox<String> comboBox_armors = new JComboBox<String>(armors.toArray(new String[armors.size()]));
+		comboBox_armors.setBounds(420, 220, 131, 20);
+		contentPane.add(comboBox_armors);
+		
+		JComboBox<String> comboBox_accessories = new JComboBox<String>(accessories.toArray(new String[accessories.size()]));
+		comboBox_accessories.setBounds(610, 220, 131, 20);
+		contentPane.add(comboBox_accessories);
+		
+		JComboBox<String> comboBox_tokens = new JComboBox<String>(tokens.toArray(new String[tokens.size()]));
+		comboBox_tokens.setBounds(230, 152, 131, 20);
+		comboBox_tokens.setMaximumRowCount(3);
+		contentPane.add(comboBox_tokens);
 		
 		JLabel lblToken = new JLabel("Token");
 		lblToken.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblToken.setBounds(224, 323, 46, 21);
+		lblToken.setBounds(224, 135, 46, 21);
 		contentPane.add(lblToken);
 		
-		//---------XY OFFSETS--------------------
+		//---------XY OFFSET SLIDERS--------------------
+		JLabel lblXOffset = new JLabel("Y Offset");
+		lblXOffset.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblXOffset.setBounds(40, 245, 46, 21);
+		contentPane.add(lblXOffset);
+		
+		//NOTE! XOFFSET AND YOFFSET GOT SWITCHED FOR HAIR, MAYBE ALL
 		JSlider hairXOffset = new JSlider();
 		hairXOffset.setValue(0);
 		hairXOffset.setPaintTicks(true);
@@ -549,17 +407,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		hairXOffset.setMajorTickSpacing(10);
 		hairXOffset.setMaximum(20);
 		hairXOffset.setMinimum(-20);
-		hairXOffset.setBounds(373, 403, 151, 38);
+		hairXOffset.setBounds(30, 265, 151, 38);
 		contentPane.add(hairXOffset);
-		
-		JLabel lblXOffset = new JLabel("Y Offset");
-		lblXOffset.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblXOffset.setBounds(373, 383, 46, 21);
-		contentPane.add(lblXOffset);
 		
 		JLabel lblYOffset = new JLabel("X Offset");
 		lblYOffset.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblYOffset.setBounds(373, 452, 46, 21);
+		lblYOffset.setBounds(40, 310, 46, 21);
 		contentPane.add(lblYOffset);
 		
 		JSlider hairYOffset = new JSlider();
@@ -569,12 +422,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		hairYOffset.setMinimum(-20);
 		hairYOffset.setMaximum(20);
 		hairYOffset.setMajorTickSpacing(10);
-		hairYOffset.setBounds(373, 466, 151, 38);
+		hairYOffset.setBounds(30, 330, 151, 38);
 		contentPane.add(hairYOffset);
 		
 		JLabel label_2 = new JLabel("Y Offset");
 		label_2.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_2.setBounds(557, 386, 46, 21);
+		label_2.setBounds(230, 245, 46, 21);
 		contentPane.add(label_2);
 		
 		JSlider faceXOffset = new JSlider();
@@ -584,12 +437,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		faceXOffset.setMinimum(-20);
 		faceXOffset.setMaximum(20);
 		faceXOffset.setMajorTickSpacing(10);
-		faceXOffset.setBounds(557, 406, 151, 38);
+		faceXOffset.setBounds(220, 265, 151, 38);
 		contentPane.add(faceXOffset);
 		
 		JLabel label_5 = new JLabel("X Offset");
 		label_5.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_5.setBounds(557, 455, 46, 21);
+		label_5.setBounds(230, 310, 46, 21);
 		contentPane.add(label_5);
 		
 		JSlider faceYOffset = new JSlider();
@@ -599,12 +452,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		faceYOffset.setMinimum(-20);
 		faceYOffset.setMaximum(20);
 		faceYOffset.setMajorTickSpacing(10);
-		faceYOffset.setBounds(557, 469, 151, 38);
+		faceYOffset.setBounds(220, 330, 151, 38);
 		contentPane.add(faceYOffset);
 		
 		JLabel label_8 = new JLabel("Y Offset");
 		label_8.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_8.setBounds(734, 383, 46, 21);
+		label_8.setBounds(420, 245, 46, 21);
 		contentPane.add(label_8);
 		
 		JSlider armorXOffset = new JSlider();
@@ -614,12 +467,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		armorXOffset.setMinimum(-20);
 		armorXOffset.setMaximum(20);
 		armorXOffset.setMajorTickSpacing(10);
-		armorXOffset.setBounds(734, 403, 151, 38);
+		armorXOffset.setBounds(410, 265, 151, 38);
 		contentPane.add(armorXOffset);
 		
 		JLabel label_11 = new JLabel("X Offset");
 		label_11.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_11.setBounds(734, 452, 46, 21);
+		label_11.setBounds(420, 310, 46, 21);
 		contentPane.add(label_11);
 		
 		JSlider armorYOffset = new JSlider();
@@ -629,76 +482,86 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		armorYOffset.setMinimum(-20);
 		armorYOffset.setMaximum(20);
 		armorYOffset.setMajorTickSpacing(10);
-		armorYOffset.setBounds(734, 466, 151, 38);
+		armorYOffset.setBounds(410, 330, 151, 38);
 		contentPane.add(armorYOffset);
 		
-		JButton btnNewButton = new JButton("Export");
-		btnNewButton.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnNewButton.setBounds(373, 528, 113, 38);
-		contentPane.add(btnNewButton);
+		//Accessories
+		JLabel lblAccessoryYOffset = new JLabel("Y Offset");
+		lblAccessoryYOffset.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblAccessoryYOffset.setBounds(610, 245, 46, 21);
+		contentPane.add(lblAccessoryYOffset);
+		
+		JSlider accessoryXOffset = new JSlider();
+		accessoryXOffset.setValue(0);
+		accessoryXOffset.setPaintTicks(true);
+		accessoryXOffset.setPaintLabels(true);
+		accessoryXOffset.setMinimum(-20);
+		accessoryXOffset.setMaximum(20);
+		accessoryXOffset.setMajorTickSpacing(10);
+		accessoryXOffset.setBounds(600, 265, 151, 38);
+		contentPane.add(accessoryXOffset);
+		
+		JLabel lblAccessoryXOffset = new JLabel("X Offset");
+		lblAccessoryXOffset.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblAccessoryXOffset.setBounds(610, 310, 46, 21);
+		contentPane.add(lblAccessoryXOffset);
+		
+		JSlider accessoryYOffset = new JSlider();
+		accessoryYOffset.setValue(0);
+		accessoryYOffset.setPaintTicks(true);
+		accessoryYOffset.setPaintLabels(true);
+		accessoryYOffset.setMinimum(-20);
+		accessoryYOffset.setMaximum(20);
+		accessoryYOffset.setMajorTickSpacing(10);
+		accessoryYOffset.setBounds(600, 330, 151, 38);
+		contentPane.add(accessoryYOffset);
+		
+		JButton btnExport = new JButton(BTNEXPORT);
+		btnExport.setFont(new Font("Calibri", Font.BOLD, 13));
+		btnExport.setBounds(770, 265, 113, 38);
+		contentPane.add(btnExport);
+		
+		JLabel lblFileName = new JLabel("File Name");
+		lblFileName.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblFileName.setBounds(770, 202,113,21);
+		contentPane.add(lblFileName);
+		//JTextField exportFileName = new JTextField();
+		exportFileName.setBounds(770,220,113,21);
+		contentPane.add(exportFileName);
 		
 		//--------LISTENERS--------------------
-		hairRed.addChangeListener(this);
-		hairGreen.addChangeListener(this);
-		hairBlue.addChangeListener(this);
-		skinRed.addChangeListener(this);
-		skinGreen.addChangeListener(this);
-		skinBlue.addChangeListener(this);
-		metalRed.addChangeListener(this);
-		metalGreen.addChangeListener(this);
-		metalBlue.addChangeListener(this);
-		trimRed.addChangeListener(this);
-		trimGreen.addChangeListener(this);
-		trimBlue.addChangeListener(this);
-		clothRed.addChangeListener(this);
-		clothGreen.addChangeListener(this);
-		clothBlue.addChangeListener(this);
-		leatherRed.addChangeListener(this);
-		leatherGreen.addChangeListener(this);
-		leatherBlue.addChangeListener(this);
 		hairXOffset.addChangeListener(this);
 		hairYOffset.addChangeListener(this);
 		faceXOffset.addChangeListener(this);
 		faceYOffset.addChangeListener(this);
 		armorXOffset.addChangeListener(this);
 		armorYOffset.addChangeListener(this);
-		
-		sliders.add(hairRed);
-		sliders.add(hairGreen);
-		sliders.add(hairBlue);
-		sliders.add(skinRed);
-		sliders.add(skinGreen);
-		sliders.add(skinBlue);
-		sliders.add(metalRed);
-		sliders.add(metalGreen);
-		sliders.add(metalBlue);
-		sliders.add(trimRed);
-		sliders.add(trimGreen);
-		sliders.add(trimBlue);
-		sliders.add(clothRed);
-		sliders.add(clothGreen);
-		sliders.add(clothBlue);
-		sliders.add(leatherRed);
-		sliders.add(leatherGreen);
-		sliders.add(leatherBlue);
+		accessoryXOffset.addChangeListener(this);
+		accessoryYOffset.addChangeListener(this);
+
 		sliders.add(hairXOffset);
 		sliders.add(hairYOffset);
 		sliders.add(faceXOffset);
 		sliders.add(faceYOffset);
 		sliders.add(armorXOffset);
 		sliders.add(armorYOffset);
+		sliders.add(accessoryXOffset);
+		sliders.add(accessoryYOffset);
+
 		
-		comboBox.addItemListener(this);
-		comboBox_1.addItemListener(this);
-		comboBox_2.addItemListener(this);
-		comboBox_3.addItemListener(this);
+		comboBox_hairs.addItemListener(this);
+		comboBox_faces.addItemListener(this);
+		comboBox_armors.addItemListener(this);
+		comboBox_accessories.addItemListener(this);
+		comboBox_tokens.addItemListener(this);
 		
-		boxes.add(comboBox);
-		boxes.add(comboBox_1);
-		boxes.add(comboBox_2);
-		boxes.add(comboBox_3);
+		boxes.add(comboBox_hairs);
+		boxes.add(comboBox_faces);
+		boxes.add(comboBox_armors);
+		boxes.add(comboBox_tokens);
+		boxes.add(comboBox_accessories);
 		
-		btnNewButton.addActionListener(this);
+		btnExport.addActionListener(this);
 		
 
 
@@ -716,6 +579,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		token = new BufferedImage(128, 128, BufferedImage.TYPE_INT_ARGB);
 		Color pixel = null;
 		Color newPixel = null;
+		//Draw Hair_back
 		for(int i = 0; i<96; i++){
 			for(int j = 0; j<96; j++){
 				if (i-hairYOffsetVal <0 || i- hairYOffsetVal>95) continue;
@@ -727,12 +591,15 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				newPixel = pixelParser(pixel);
 				//newPixel = pixel;
 				//System.out.println(newPixel.getRed());
+				
+				//Image size x4
 				portrait.setRGB(i*2, j*2, newPixel.getRGB());
 				portrait.setRGB(i*2+1, j*2, newPixel.getRGB());
 				portrait.setRGB(i*2, j*2+1, newPixel.getRGB());
 				portrait.setRGB(i*2+1, j*2+1, newPixel.getRGB());
 			}
 		}
+		//Draw Armor
 		for(int i = 0; i<96; i++){
 			for(int j = 0; j<96; j++){
 				if (i-armorYOffsetVal <0 || i- armorYOffsetVal>95) continue;
@@ -749,6 +616,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				portrait.setRGB(i*2+1, j*2+1, newPixel.getRGB());
 			}
 		}
+		//Draw face
 		for(int i = 0; i<96; i++){
 			for(int j = 0; j<96; j++){
 				if (i-faceYOffsetVal <0 || i- faceYOffsetVal>95) continue;
@@ -765,6 +633,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				portrait.setRGB(i*2+1, j*2+1, newPixel.getRGB());
 			}
 		}
+		//Draw hair_front
 		for(int i = 0; i<96; i++){
 			for(int j = 0; j<96; j++){
 				if (i-hairYOffsetVal <0 || i- hairYOffsetVal>95) continue;
@@ -781,7 +650,24 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				portrait.setRGB(i*2+1, j*2+1, newPixel.getRGB());
 			}
 		}
-		
+		//Draw accessory
+				for(int i = 0; i<96; i++){
+					for(int j = 0; j<96; j++){
+						if (i-accessoryYOffsetVal <0 || i- accessoryYOffsetVal>95) continue;
+						if (j+accessoryXOffsetVal<0 || j+ accessoryXOffsetVal>95)continue;
+						pixel = new Color(accessory.getRGB(i-accessoryYOffsetVal, j+accessoryXOffsetVal),true);
+						newPixel = facePixelParser(pixel);
+						if(pixel.getAlpha()==0){
+							continue;
+						}
+						//newPixel = pixel;
+						portrait.setRGB(i*2, j*2, newPixel.getRGB());
+						portrait.setRGB(i*2+1, j*2, newPixel.getRGB());
+						portrait.setRGB(i*2, j*2+1, newPixel.getRGB());
+						portrait.setRGB(i*2+1, j*2+1, newPixel.getRGB());
+					}
+				}
+		//Draw Token
 		for(int i = 0; i<64; i++){
 			for(int j = 0; j<64; j++){
 				pixel = new Color(importedToken.getRGB(i, j),true);
@@ -807,6 +693,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 			//Given that the max value is 25 (255), if the image eyes were changed to have red values above 210,
 			//they could be separated from the hair
 			//Alternatively, if the pixel could be confirmed as part of the hair or face, a simple if statement would fix it
+	
 	Color pixelParser(Color pixel){
 		Color newPixel = null;
 		//double check this line 
@@ -864,7 +751,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		return newPixel;
 	}
 	
-	Color facePixelParser(Color pixel){
+	Color facePixelParser(Color pixel){ //Currently used for face and accessory
 		Color newPixel = null;
 		//double check this line 
 		if(pixel.getAlpha() == 0){
@@ -892,13 +779,14 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				break;
 		case 8: newPixel = skinColor.darker().darker().darker();
 				break;
-		//9-20 shouldn't get used, but I'll keep them for now
-		case 9: newPixel = metalColor.brighter();
+		case 9: newPixel = accessoryColor.brighter();
 				break;
-		case 10: newPixel = metalColor;
+		case 10: newPixel = accessoryColor;
 				break;
-		case 11: newPixel = metalColor.darker();
+		case 11: newPixel = accessoryColor.darker();
 				break;
+				
+				//12-20 shouldn't get used, but I'll keep them for now
 		case 12: newPixel = trimColor.brighter();
 				break;
 		case 13: newPixel = trimColor;
@@ -927,119 +815,31 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		JSlider src = (JSlider) e.getSource();
 		int index = sliders.indexOf(src);
 		int val = src.getValue();
-		int red;
-		int blue;
-		int green;
 		//System.out.println(index);
 		switch(index){
-		case 0: //hair_red changed
-			green = hairColor.getGreen();
-			blue = hairColor.getBlue();
-			hairColor = new Color(val,green,blue);
-			break;
-		case 1: //hair_green changed
-			red = hairColor.getRed();
-			blue = hairColor.getBlue();
-			hairColor = new Color(red,val,blue);
-			break;
-		case 2: //hair_blue changed
-			red = hairColor.getRed();
-			green = hairColor.getGreen();
-			hairColor = new Color(red, green,val);
-			break;
-		case 3: //skin_red
-			green = skinColor.getGreen();
-			blue = skinColor.getBlue();
-			skinColor = new Color(val, green,blue);
-			break;
-		case 4: //skin_green
-			red = skinColor.getRed();
-			blue = skinColor.getBlue();
-			skinColor = new Color(red,val,blue);
-			break;
-		case 5: //skin_blue
-			red = skinColor.getRed();
-			green = skinColor.getGreen();
-			skinColor = new Color(red,green,val);
-			break;
-		case 6:
-			green = metalColor.getGreen();
-			blue = metalColor.getBlue();
-			metalColor = new Color(val,green,blue);
-			break;
-		case 7:
-			red = metalColor.getRed();
-			blue = metalColor.getBlue();
-			metalColor = new Color(red,val,blue);
-			break;
-		case 8:
-			red = metalColor.getRed();
-			green = metalColor.getGreen();
-			metalColor = new Color(red, green, val);
-			break;
-		case 9:
-			green = trimColor.getGreen();
-			blue = trimColor.getBlue();
-			trimColor = new Color(val,green,blue);
-			break;
-		case 10:
-			red = trimColor.getRed();
-			blue = trimColor.getBlue();
-			trimColor = new Color (red,val,blue);
-			break;
-		case 11:
-			red = trimColor.getRed();
-			green = trimColor.getGreen();
-			trimColor = new Color(red,green,val);
-			break;
-		case 12:
-			green = clothColor.getGreen();
-			blue = clothColor.getBlue();
-			clothColor = new Color(val,green,blue);
-			break;
-		case 13:
-			red = clothColor.getRed();
-			blue = clothColor.getBlue();
-			clothColor = new Color(red,val,blue);
-			break;
-		case 14:
-			red = clothColor.getRed();
-			green = clothColor.getGreen();
-			clothColor = new Color(red,green,val);
-			break;
-		case 15:
-			green = leatherColor.getGreen();
-			blue = leatherColor.getBlue();
-			leatherColor = new Color(val,green,blue);
-			break;
-		case 16:
-			red = leatherColor.getRed();
-			blue = leatherColor.getBlue();
-			leatherColor = new Color(red,val,blue);
-			break;
-		case 17:
-			red = leatherColor.getRed();
-			green = leatherColor.getGreen();
-			leatherColor = new Color(red,green,val);
-			break;
-		case 18: //hair_X
+		case 0: //hair_X	------Should not be using id numbers. Too many potential problems when changed
 			hairXOffsetVal = val;
 			break;
-		case 19: //hair_Y
+		case 1: //hair_Y
 			hairYOffsetVal = val;
 			break;
-		case 20:
+		case 2:
 			faceXOffsetVal = val;
 			break;
-		case 21:
+		case 3:
 			faceYOffsetVal = val;
 			break;
-		case 22:
+		case 4:
 			armorXOffsetVal = val;
 			break;
-		case 23:
+		case 5:
 			armorYOffsetVal = val;
 			break;
+		case 6:
+			accessoryXOffsetVal = val;
+			break;
+		case 7:
+			accessoryYOffsetVal = val;
 		default:
 			System.out.println("Switch statement overran");
 		}
@@ -1088,9 +888,17 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 			case 3:
 				try {
 				    importedToken = ImageIO.read(new File(path + "resources/" + fileName));
+				  System.out.println(src.getName() + " FileName: " + fileName);
 				} catch (IOException ex) {
 				}
 				break;
+			case 4:
+				try {
+				    accessory = ImageIO.read(new File(path + "resources/" + fileName));
+				  System.out.println(src.getName() + " FileName: " + fileName);
+				} catch (IOException ex) {
+				}
+				break;	
 			default:
 				System.out.println("File Swith OverRun");
 			}
@@ -1107,27 +915,85 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 	}
 	
 	public void actionPerformed(ActionEvent event){
+		Component source = null;
+		String srcAction = "";
+		source = (JButton)(event.getSource());
+		srcAction = ((JButton)source).getText();
 		
-		try{	
-
-			String rawPath = FireEmblemCharacterCreator.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-			String path = URLDecoder.decode(rawPath, "UTF-8");
-			path = path.substring(0, path.lastIndexOf("/") + 1);
-			path = path.replaceAll("%20", " ");
-			File portraitOutputFile = new File(path + "output.png");
-			try{		
-				ImageIO.write(portrait, "PNG", portraitOutputFile);
+		if(srcAction.equalsIgnoreCase(BTNEXPORT)) {
+			try{	
+	
+				String rawPath = FireEmblemCharacterCreator.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+				String path = URLDecoder.decode(rawPath, "UTF-8");
+				path = path.substring(0, path.lastIndexOf("/") + 1);
+				path = path.replaceAll("%20", " ");
+				File portraitOutputFile = new File(path + exportFileName.getText() + ".png");
+				try{		
+					ImageIO.write(portrait, "PNG", portraitOutputFile);
+					}
+				catch(IOException e){};
+				
+				File tokenOutputFile = new File(path + exportFileName.getText() + "token.png");
+			
+					ImageIO.write(token, "PNG", tokenOutputFile);
 				}
 			catch(IOException e){};
-			
-			File tokenOutputFile = new File(path + "outputToken.png");
-		
-				ImageIO.write(token, "PNG", tokenOutputFile);
+		}
+		else {
+			//Color initialColor = Color.red;
+			Color newColor;
+			switch(srcAction) {
+			case BTNHAIRCOLOR:
+				newColor = JColorChooser.showDialog(this, "Select a color", hairColor);
+				hairColor = newColor;
+				hairRect.setBackground(hairColor);
+				break;
+			case BTNEYECOLOR :
+				newColor = JColorChooser.showDialog(this, "Select a color", eyeColor);
+				eyeColor = newColor;
+				eyeRect.setBackground(eyeColor);
+				break;
+			case BTNSKINCOLOR:
+				newColor = JColorChooser.showDialog(this, "Select a color", skinColor);
+				skinColor = newColor;
+				skinRect.setBackground(skinColor);
+				break;
+			case BTNMETALCOLOR:
+				newColor = JColorChooser.showDialog(this, "Select a color", metalColor);
+				metalColor = newColor;
+				metalRect.setBackground(metalColor);
+				break;
+			case BTNTRIMCOLOR:
+				newColor = JColorChooser.showDialog(this, "Select a color", trimColor);
+				trimColor = newColor;
+				trimRect.setBackground(trimColor);
+				break;
+			case BTNCLOTHCOLOR:
+				newColor = JColorChooser.showDialog(this, "Select a color", clothColor);
+				clothColor = newColor;
+				clothRect.setBackground(clothColor);
+				break;
+			case BTNLEATHERCOLOR:
+				newColor = JColorChooser.showDialog(this, "Select a color", leatherColor);
+				leatherColor = newColor;
+				leatherRect.setBackground(leatherColor);
+				break;
+			case BTNACCESSORYCOLOR:
+				newColor = JColorChooser.showDialog(this, "Select a color", accessoryColor);
+				accessoryColor = newColor;
+				accessoryRect.setBackground(accessoryColor);
+				break;	
 			}
-		catch(IOException e){};
+			
+			
+			drawImages();
+			portraitPanel.setImage(portrait);
+			portraitPanel.repaint();
+			tokenPanel.setImage(token);
+			tokenPanel.repaint();
+		}
 
 	}
 	
 }
-
 
