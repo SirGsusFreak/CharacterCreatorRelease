@@ -945,42 +945,50 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 			switch(srcAction) {
 			case BTNHAIRCOLOR:
 				newColor = JColorChooser.showDialog(this, "Select a color", hairColor);
-				hairColor = newColor;
+				if (newColor != null)
+					hairColor = newColor;
 				hairRect.setBackground(hairColor);
 				break;
 			case BTNEYECOLOR :
 				newColor = JColorChooser.showDialog(this, "Select a color", eyeColor);
-				eyeColor = newColor;
+				if (newColor != null)
+					eyeColor = newColor;
 				eyeRect.setBackground(eyeColor);
 				break;
 			case BTNSKINCOLOR:
 				newColor = JColorChooser.showDialog(this, "Select a color", skinColor);
-				skinColor = newColor;
+				if (newColor != null)
+					skinColor = newColor;
 				skinRect.setBackground(skinColor);
 				break;
 			case BTNMETALCOLOR:
 				newColor = JColorChooser.showDialog(this, "Select a color", metalColor);
-				metalColor = newColor;
+				if (newColor != null)
+					metalColor = newColor;
 				metalRect.setBackground(metalColor);
 				break;
 			case BTNTRIMCOLOR:
 				newColor = JColorChooser.showDialog(this, "Select a color", trimColor);
-				trimColor = newColor;
+				if (newColor != null)
+					trimColor = newColor;
 				trimRect.setBackground(trimColor);
 				break;
 			case BTNCLOTHCOLOR:
 				newColor = JColorChooser.showDialog(this, "Select a color", clothColor);
-				clothColor = newColor;
+				if (newColor != null)
+					clothColor = newColor;
 				clothRect.setBackground(clothColor);
 				break;
 			case BTNLEATHERCOLOR:
 				newColor = JColorChooser.showDialog(this, "Select a color", leatherColor);
-				leatherColor = newColor;
+				if (newColor != null)
+					leatherColor = newColor;
 				leatherRect.setBackground(leatherColor);
 				break;
 			case BTNACCESSORYCOLOR:
 				newColor = JColorChooser.showDialog(this, "Select a color", accessoryColor);
-				accessoryColor = newColor;
+				if (newColor != null)
+					accessoryColor = newColor;
 				accessoryRect.setBackground(accessoryColor);
 				break;	
 			}
@@ -996,4 +1004,5 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 	}
 	
 }
+
 
