@@ -1,28 +1,38 @@
+package CharacterCreator;
 /**	
  *  FireEmblemCharacterCreator created by TheFlyingMinotaur
  *  Updated by Baconmaster120
  *  Additional art resources provided by Iscaneus
  */
 
-package CharacterCreator;
-import CharacterCreator.ImagePanel;
-
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
+import javax.swing.colorchooser.ColorChooserComponentFactory;
+import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import org.omg.CosNaming.NamingContextExtPackage.AddressHelper;
+
+import CharacterCreator.ImagePanel;
+
 import javax.swing.JLabel;
 import java.awt.image.WritableRaster;
 
 import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.TextField;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+//import java.awt.Rectangle;
+//import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -38,15 +48,17 @@ import java.util.ArrayList;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
 
 public class FireEmblemCharacterCreator extends JFrame implements ChangeListener, ItemListener, ActionListener {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7435578396712824308L;
 	BufferedImage portrait;
 	BufferedImage token;
@@ -87,6 +99,8 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 	Color accessoryColor = new Color(0,0,0,255);
 	Color outlineColor = new Color(0,0,0,255);
 	Color blankColor = new Color(0,0,0,0);
+	Color startCCColor = new Color(0,0,0,0);
+	Color newCCColor = new Color(0,0,0,0);
 	
 	int hairXOffsetVal=0;
 	int hairYOffsetVal=0;
@@ -96,6 +110,11 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 	int armorYOffsetVal=0;
 	int accessoryXOffsetVal=0;
 	int accessoryYOffsetVal=0;
+	
+	
+	
+	//SystemColorChooserPanel newChooser = new SystemColorChooserPanel();
+	//chooser.addChoosePanel(newChooser);
 	
 	//Button strings
 	private static final String BTNEXPORT = "Export";
@@ -369,23 +388,27 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		//DROPBOXES
 		JComboBox<String> comboBox_hairs = new JComboBox<String>(hairs.toArray(new String[hairs.size()]));
 		comboBox_hairs.setBounds(40, 220, 131, 20);
+		comboBox_hairs.setMaximumRowCount(10);
 		contentPane.add(comboBox_hairs);
 		
 		JComboBox<String> comboBox_faces = new JComboBox<String>(faces.toArray(new String[faces.size()]));
 		comboBox_faces.setBounds(230, 220, 131, 20);
+		comboBox_hairs.setMaximumRowCount(10);
 		contentPane.add(comboBox_faces);
 		
 		JComboBox<String> comboBox_armors = new JComboBox<String>(armors.toArray(new String[armors.size()]));
 		comboBox_armors.setBounds(420, 220, 131, 20);
+		comboBox_hairs.setMaximumRowCount(10);
 		contentPane.add(comboBox_armors);
 		
 		JComboBox<String> comboBox_accessories = new JComboBox<String>(accessories.toArray(new String[accessories.size()]));
 		comboBox_accessories.setBounds(610, 220, 131, 20);
+		comboBox_hairs.setMaximumRowCount(10);
 		contentPane.add(comboBox_accessories);
 		
 		JComboBox<String> comboBox_tokens = new JComboBox<String>(tokens.toArray(new String[tokens.size()]));
 		comboBox_tokens.setBounds(230, 152, 131, 20);
-		comboBox_tokens.setMaximumRowCount(3);
+		comboBox_tokens.setMaximumRowCount(10);
 		contentPane.add(comboBox_tokens);
 		
 		JLabel lblToken = new JLabel("Token");
@@ -914,12 +937,150 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 
 	}
 	
+	class MyChooserPanel extends AbstractColorChooserPanel {
+
+		private static final long serialVersionUID = 8469886355393151520L;
+		JPanel hairBtns = new JPanel();
+		
+		public void buildChooser() {
+		    //setLayout(new GridLayout(50,50,0, 3));
+		    setLayout(new FlowLayout());
+//		    JPanel skinBtns = new JPanel();
+//		    add(skinBtns);
+//		    JPanel hairBtns = new JPanel();
+//		    add(hairBtns);
+		    
+		    //Default Skin Colors
+		    makeSkinButton("btnSkinColor_6", new Color(248,224,216,255));
+		    makeSkinButton("btnSkinColor_5", new Color(232,216,192,255));
+		    makeSkinButton("btnSkinColor_7", new Color(248,208,152,255));
+		    makeSkinButton("btnSkinColor_0", new Color(248,216,120,255));
+		    makeSkinButton("btnSkinColor_1", new Color(248,224,120,255));
+		    makeSkinButton("btnSkinColor_3", new Color(248,224,96,255));
+		    makeSkinButton("btnSkinColor_2", new Color(240,184,104,255));
+		    makeSkinButton("btnSkinColor_4", new Color(232,160,72,255));
+		    
+		    //Default Hair Colors
+		    makeHairButton("btnHairColor_Lyn", new Color(48,104,104,255));
+		    makeHairButton("btnHairColor_Hector", new Color(80,80,216,255));
+		    makeHairButton("btnHairColor_Eliwood", new Color(208,40,32,255));
+		    makeHairButton("btnHairColor_Ninian", new Color(120,224,224,255));
+		    makeHairButton("btnHairColor_Nils", new Color(72,192,184,255));
+		    makeHairButton("btnHairColor_blonde", new Color(224,216,64,255));
+		    getColorSelectionModel().setSelectedColor(startCCColor);
+		  }
+
+		  public void updateChooser() {
+		  }
+
+		  public String getDisplayName() {
+		    return "Defaults";
+		  }
+
+		  public Icon getSmallDisplayIcon() {
+		    return null;
+		  }
+		  public Icon getLargeDisplayIcon() {
+		    return null;
+		  }
+		  private void makeSkinButton(String name, Color color) {
+		    JButton button = new JButton(name);
+		    button.setPreferredSize(new Dimension(30,30));
+		    button.setBackground(color);
+		    button.setAction(setColorAction);
+		    add(button);
+		  }
+		  private void makeHairButton(String name, Color color) {
+			    JButton button = new JButton(name);
+			    button.setPreferredSize(new Dimension(30,30));
+			    button.setBackground(color);
+			    button.setAction(setColorAction);
+			    add(button);
+			  }
+		  
+		  Action setColorAction = new AbstractAction() {
+			private static final long serialVersionUID = 4121913800217436519L;
+
+			public void actionPerformed(ActionEvent evt) {
+		      JButton button = (JButton) evt.getSource();
+
+		      getColorSelectionModel().setSelectedColor(button.getBackground());
+		    }
+		  };
+		} //End MyChooserPanel
+	
+	class MyPreviewPanel extends JComponent {
+		private static final long serialVersionUID = -6482402848842359509L;
+		Color curColor;
+		public MyPreviewPanel(JColorChooser choosr) {
+			curColor = choosr.getColor();
+			setPreferredSize(new Dimension(150,50));
+		}
+		public void paint(Graphics g) {
+			g.setColor(curColor.brighter());
+			g.fillRect(0, 0,50,50);
+			g.setColor(curColor);
+			g.fillRect(50, 0,50,50);
+			g.setColor(curColor.darker());
+			g.fillRect(100, 0, 50, 50);
+		}
+	}
+	
+	public static AbstractColorChooserPanel findPanel (JColorChooser chooser, String name) {
+		AbstractColorChooserPanel[] panels = chooser.getChooserPanels();
+		for (int i = 0; i < panels.length; i++) {
+			String clsName = panels[i].getClass().getName();
+			if (clsName.equals(name)) {
+				return panels[i];
+			}
+		}
+		return null;
+	}
+	
 	public void actionPerformed(ActionEvent event){
 		Component source = null;
 		String srcAction = "";
 		source = (JButton)(event.getSource());
 		srcAction = ((JButton)source).getText();
 		
+		//WIP
+		JColorChooser chooser = new JColorChooser();
+		//int numPanels = chooser.getChooserPanels().length;
+		AbstractColorChooserPanel[] newPanels = new AbstractColorChooserPanel[3];
+		newPanels[0] = findPanel(chooser, "javax.swing.colorchooser.DefaultRGBChooserPanel");
+		newPanels[0] = findPanel(chooser, "javax.swing.colorchooser.DefaultHSBChooserPanel");
+		newPanels[0] = findPanel(chooser, "javax.swing.colorchooser.DefaultSwatchChooserPanel");
+		chooser.addChooserPanel(new MyChooserPanel());
+		final MyPreviewPanel pre = new MyPreviewPanel(chooser);
+		chooser.setPreviewPanel(pre);
+		
+		ColorSelectionModel model = chooser.getSelectionModel();
+		model.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent evt) {
+				ColorSelectionModel model = (ColorSelectionModel) evt.getSource();
+				pre.curColor = model.getSelectedColor();
+				
+			}
+		});
+		
+		
+	    ActionListener okActionListener = new ActionListener() {
+	        public void actionPerformed(ActionEvent actionEvent) {
+	          newCCColor = chooser.getColor();
+	        }
+	      };
+
+	      // For cancel selection, change button background to red
+	      ActionListener cancelActionListener = new ActionListener() {
+	        public void actionPerformed(ActionEvent actionEvent) {
+	        	newCCColor = startCCColor;
+	        }
+	      };
+		
+	      final JDialog dialog = JColorChooser.createDialog(this, "Change Hair Color", true,
+			        chooser, okActionListener, cancelActionListener);
+			dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			
 		if(srcAction.equalsIgnoreCase(BTNEXPORT)) {
 			try{	
 	
@@ -940,55 +1101,71 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 			catch(IOException e){};
 		}
 		else {
-			//Color initialColor = Color.red;
-			Color newColor;
 			switch(srcAction) {
 			case BTNHAIRCOLOR:
-				newColor = JColorChooser.showDialog(this, "Select a color", hairColor);
-				if (newColor != null)
-					hairColor = newColor;
+				startCCColor = hairColor;
+				//final JDialog dialog = JColorChooser.createDialog(this, "Change Hair Color", true,
+				//        chooser, okActionListener, null);
+				dialog.setVisible(true);
+				
+				//if (newColor != null)
+					hairColor = newCCColor;
 				hairRect.setBackground(hairColor);
 				break;
 			case BTNEYECOLOR :
-				newColor = JColorChooser.showDialog(this, "Select a color", eyeColor);
-				if (newColor != null)
-					eyeColor = newColor;
+				startCCColor = eyeColor;
+				dialog.setVisible(true);
+				
+				//if (newColor != null)
+					eyeColor = newCCColor;
 				eyeRect.setBackground(eyeColor);
 				break;
 			case BTNSKINCOLOR:
-				newColor = JColorChooser.showDialog(this, "Select a color", skinColor);
-				if (newColor != null)
-					skinColor = newColor;
+				startCCColor = skinColor;
+				dialog.setVisible(true);
+				
+				//if (newColor != null)
+					skinColor = newCCColor;
 				skinRect.setBackground(skinColor);
 				break;
 			case BTNMETALCOLOR:
-				newColor = JColorChooser.showDialog(this, "Select a color", metalColor);
-				if (newColor != null)
-					metalColor = newColor;
+				startCCColor = metalColor;
+				dialog.setVisible(true);
+				
+				//if (newColor != null)
+					metalColor = newCCColor;
 				metalRect.setBackground(metalColor);
 				break;
 			case BTNTRIMCOLOR:
-				newColor = JColorChooser.showDialog(this, "Select a color", trimColor);
-				if (newColor != null)
-					trimColor = newColor;
+				startCCColor = trimColor;
+				dialog.setVisible(true);
+				
+				//if (newColor != null)
+					trimColor = newCCColor;
 				trimRect.setBackground(trimColor);
 				break;
 			case BTNCLOTHCOLOR:
-				newColor = JColorChooser.showDialog(this, "Select a color", clothColor);
-				if (newColor != null)
-					clothColor = newColor;
+				startCCColor = clothColor;
+				dialog.setVisible(true);
+				
+				//if (newColor != null)
+					clothColor = newCCColor;
 				clothRect.setBackground(clothColor);
 				break;
 			case BTNLEATHERCOLOR:
-				newColor = JColorChooser.showDialog(this, "Select a color", leatherColor);
-				if (newColor != null)
-					leatherColor = newColor;
+				startCCColor = leatherColor;
+				dialog.setVisible(true);
+				
+				//if (newColor != null)
+					leatherColor = newCCColor;
 				leatherRect.setBackground(leatherColor);
 				break;
 			case BTNACCESSORYCOLOR:
-				newColor = JColorChooser.showDialog(this, "Select a color", accessoryColor);
-				if (newColor != null)
-					accessoryColor = newColor;
+				startCCColor = accessoryColor;
+				dialog.setVisible(true);
+				
+				//if (newColor != null)
+					accessoryColor = newCCColor;
 				accessoryRect.setBackground(accessoryColor);
 				break;	
 			}
@@ -1004,5 +1181,3 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 	}
 	
 }
-
-
