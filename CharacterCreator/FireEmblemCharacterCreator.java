@@ -1278,7 +1278,6 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 					accessoryRectD.setBackground(accessoryColor.darker());
 				break;
 			case BTNRANDOMPORTRAIT:
-				System.out.println("hey");
 				for (JComboBox box : boxes) {
 					if (boxes.indexOf(box) != 3) {
 						randomizeComboBox(box);
