@@ -138,6 +138,11 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 	private static final String BTNCLOTHCOLOR = "Cloth Color";
 	private static final String BTNLEATHERCOLOR = "Leather Color";
 	private static final String BTNACCESSORYCOLOR = "Accessory Color";
+	private static final String BTNRANDOMHAIR = "Random Hair";
+	private static final String BTNRANDOMFACE = "Random Face";
+	private static final String BTNRANDOMARMOR = "Random Armor";
+	private static final String BTNRANDOMTOKEN = "Random Token";
+	private static final String BTNRANDOMACCESSORY = "Random Accessory";
 	private static final String BTNRANDOMPORTRAIT = "Random Portrait";
 	
 	File folder;
@@ -411,7 +416,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		
 		//TOKEN BOX
 		tokenPanel = new ImagePanel(path + "resources/BlankTok.png");
-		tokenPanel.setBounds(224, 10, 128, 128);
+		tokenPanel.setBounds(224, 0, 128, 128);
 		contentPane.add(tokenPanel);
 		
 		
@@ -467,30 +472,55 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		comboBox_hairs.setBounds(40, 220, 131, 20);
 		comboBox_hairs.setMaximumRowCount(9);
 		contentPane.add(comboBox_hairs);
+
+		JButton btnRandomHair = new JButton(BTNRANDOMHAIR);
+		btnRandomHair.setFont(new Font("Calibri", Font.BOLD, 13));
+		btnRandomHair.setBounds(36, 380, 140, 25);
+		contentPane.add(btnRandomHair);
 		
 		JComboBox<String> comboBox_faces = new JComboBox<String>(faces.toArray(new String[faces.size()]));
 		comboBox_faces.setBounds(230, 220, 131, 20);
 		comboBox_faces.setMaximumRowCount(9);
 		contentPane.add(comboBox_faces);
+
+		JButton btnRandomFace = new JButton(BTNRANDOMFACE);
+		btnRandomFace.setFont(new Font("Calibri", Font.BOLD, 13));
+		btnRandomFace.setBounds(226, 380, 140, 25);
+		contentPane.add(btnRandomFace);
 		
 		JComboBox<String> comboBox_armors = new JComboBox<String>(armors.toArray(new String[armors.size()]));
 		comboBox_armors.setBounds(420, 220, 131, 20);
 		comboBox_armors.setMaximumRowCount(9);
 		contentPane.add(comboBox_armors);
+
+		JButton btnRandomArmor = new JButton(BTNRANDOMARMOR);
+		btnRandomArmor.setFont(new Font("Calibri", Font.BOLD, 13));
+		btnRandomArmor.setBounds(416, 380, 140, 25);
+		contentPane.add(btnRandomArmor);
 		
 		JComboBox<String> comboBox_accessories = new JComboBox<String>(accessories.toArray(new String[accessories.size()]));
 		comboBox_accessories.setBounds(610, 220, 131, 20);
 		comboBox_accessories.setMaximumRowCount(9);
 		contentPane.add(comboBox_accessories);
+
+		JButton btnRandomAccessory = new JButton(BTNRANDOMACCESSORY);
+		btnRandomAccessory.setFont(new Font("Calibri", Font.BOLD, 13));
+		btnRandomAccessory.setBounds(606, 380, 140, 25);
+		contentPane.add(btnRandomAccessory);
 		
 		JComboBox<String> comboBox_tokens = new JComboBox<String>(tokens.toArray(new String[tokens.size()]));
-		comboBox_tokens.setBounds(230, 152, 131, 20);
+		comboBox_tokens.setBounds(230, 142, 131, 20);
 		comboBox_tokens.setMaximumRowCount(12);
 		contentPane.add(comboBox_tokens);
+
+		JButton btnRandomToken = new JButton(BTNRANDOMTOKEN);
+		btnRandomToken.setFont(new Font("Calibri", Font.BOLD, 13));
+		btnRandomToken.setBounds(226, 170, 140, 25);
+		contentPane.add(btnRandomToken);
 		
 		JLabel lblToken = new JLabel("Token");
 		lblToken.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblToken.setBounds(224, 135, 46, 21);
+		lblToken.setBounds(224, 125, 46, 21);
 		contentPane.add(lblToken);
 		
 		//---------XY OFFSET SLIDERS--------------------
@@ -666,6 +696,11 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		boxes.add(comboBox_tokens);
 		boxes.add(comboBox_accessories);
 
+		btnRandomHair.addActionListener(this);
+		btnRandomFace.addActionListener(this);
+		btnRandomArmor.addActionListener(this);
+		btnRandomToken.addActionListener(this);
+		btnRandomAccessory.addActionListener(this);
 		btnRandomPortrait.addActionListener(this);
 		btnExport.addActionListener(this);
 		
@@ -1277,12 +1312,28 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 					accessoryRect.setBackground(accessoryColor);
 					accessoryRectD.setBackground(accessoryColor.darker());
 				break;
+			case BTNRANDOMHAIR:
+				randomizeComboBox(boxes.get(0));
+				break;
+			case BTNRANDOMFACE:
+				randomizeComboBox(boxes.get(1));
+				break;
+			case BTNRANDOMARMOR:
+				randomizeComboBox(boxes.get(2));
+				break;
+			case BTNRANDOMTOKEN:
+				randomizeComboBox(boxes.get(3));
+				break;
+			case BTNRANDOMACCESSORY:
+				randomizeComboBox(boxes.get(4));
+				break;
 			case BTNRANDOMPORTRAIT:
 				for (JComboBox box : boxes) {
 					if (boxes.indexOf(box) != 3) {
 						randomizeComboBox(box);
 					}
 				}
+				break;
 			}
 			
 			drawImages();
