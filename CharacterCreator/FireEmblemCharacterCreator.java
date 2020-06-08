@@ -528,52 +528,36 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		lblXOffset.setFont(new Font("Calibri", Font.BOLD, 13));
 		lblXOffset.setBounds(40, 245, 46, 21);
 		contentPane.add(lblXOffset);
-		
-		//NOTE! XOFFSET AND YOFFSET GOT SWITCHED FOR HAIR, MAYBE ALL
-		JSlider hairXOffset = new JSlider();
-		hairXOffset.setValue(0);
-		hairXOffset.setPaintTicks(true);
-		hairXOffset.setPaintLabels(true);
-		hairXOffset.setMajorTickSpacing(10);
-		hairXOffset.setMaximum(20);
-		hairXOffset.setMinimum(-20);
-		hairXOffset.setBounds(30, 265, 151, 38);
-		contentPane.add(hairXOffset);
+
+		JSlider hairYOffset = new JSlider();
+		hairYOffset.setValue(0);
+		hairYOffset.setPaintTicks(true);
+		hairYOffset.setPaintLabels(true);
+		hairYOffset.setMajorTickSpacing(10);
+		hairYOffset.setMaximum(20);
+		hairYOffset.setMinimum(-20);
+		hairYOffset.setBounds(30, 265, 151, 38);
+		contentPane.add(hairYOffset);
 		
 		JLabel lblYOffset = new JLabel("X Offset");
 		lblYOffset.setFont(new Font("Calibri", Font.BOLD, 13));
 		lblYOffset.setBounds(40, 310, 46, 21);
 		contentPane.add(lblYOffset);
 		
-		JSlider hairYOffset = new JSlider();
-		hairYOffset.setValue(0);
-		hairYOffset.setPaintTicks(true);
-		hairYOffset.setPaintLabels(true);
-		hairYOffset.setMinimum(-20);
-		hairYOffset.setMaximum(20);
-		hairYOffset.setMajorTickSpacing(10);
-		hairYOffset.setBounds(30, 330, 151, 38);
-		contentPane.add(hairYOffset);
+		JSlider hairXOffset = new JSlider();
+		hairXOffset.setValue(0);
+		hairXOffset.setPaintTicks(true);
+		hairXOffset.setPaintLabels(true);
+		hairXOffset.setMinimum(-20);
+		hairXOffset.setMaximum(20);
+		hairXOffset.setMajorTickSpacing(10);
+		hairXOffset.setBounds(30, 330, 151, 38);
+		contentPane.add(hairXOffset);
 		
 		JLabel label_2 = new JLabel("Y Offset");
 		label_2.setFont(new Font("Calibri", Font.BOLD, 13));
 		label_2.setBounds(230, 245, 46, 21);
 		contentPane.add(label_2);
-		
-		JSlider faceXOffset = new JSlider();
-		faceXOffset.setValue(0);
-		faceXOffset.setPaintTicks(true);
-		faceXOffset.setPaintLabels(true);
-		faceXOffset.setMinimum(-20);
-		faceXOffset.setMaximum(20);
-		faceXOffset.setMajorTickSpacing(10);
-		faceXOffset.setBounds(220, 265, 151, 38);
-		contentPane.add(faceXOffset);
-		
-		JLabel label_5 = new JLabel("X Offset");
-		label_5.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_5.setBounds(230, 310, 46, 21);
-		contentPane.add(label_5);
 		
 		JSlider faceYOffset = new JSlider();
 		faceYOffset.setValue(0);
@@ -582,28 +566,28 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		faceYOffset.setMinimum(-20);
 		faceYOffset.setMaximum(20);
 		faceYOffset.setMajorTickSpacing(10);
-		faceYOffset.setBounds(220, 330, 151, 38);
+		faceYOffset.setBounds(220, 265, 151, 38);
 		contentPane.add(faceYOffset);
+		
+		JLabel label_5 = new JLabel("X Offset");
+		label_5.setFont(new Font("Calibri", Font.BOLD, 13));
+		label_5.setBounds(230, 310, 46, 21);
+		contentPane.add(label_5);
+		
+		JSlider faceXOffset = new JSlider();
+		faceXOffset.setValue(0);
+		faceXOffset.setPaintTicks(true);
+		faceXOffset.setPaintLabels(true);
+		faceXOffset.setMinimum(-20);
+		faceXOffset.setMaximum(20);
+		faceXOffset.setMajorTickSpacing(10);
+		faceXOffset.setBounds(220, 330, 151, 38);
+		contentPane.add(faceXOffset);
 		
 		JLabel label_8 = new JLabel("Y Offset");
 		label_8.setFont(new Font("Calibri", Font.BOLD, 13));
 		label_8.setBounds(420, 245, 46, 21);
 		contentPane.add(label_8);
-		
-		JSlider armorXOffset = new JSlider();
-		armorXOffset.setValue(0);
-		armorXOffset.setPaintTicks(true);
-		armorXOffset.setPaintLabels(true);
-		armorXOffset.setMinimum(-20);
-		armorXOffset.setMaximum(20);
-		armorXOffset.setMajorTickSpacing(10);
-		armorXOffset.setBounds(410, 265, 151, 38);
-		contentPane.add(armorXOffset);
-		
-		JLabel label_11 = new JLabel("X Offset");
-		label_11.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_11.setBounds(420, 310, 46, 21);
-		contentPane.add(label_11);
 		
 		JSlider armorYOffset = new JSlider();
 		armorYOffset.setValue(0);
@@ -612,29 +596,29 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		armorYOffset.setMinimum(-20);
 		armorYOffset.setMaximum(20);
 		armorYOffset.setMajorTickSpacing(10);
-		armorYOffset.setBounds(410, 330, 151, 38);
+		armorYOffset.setBounds(410, 265, 151, 38);
 		contentPane.add(armorYOffset);
+		
+		JLabel label_11 = new JLabel("X Offset");
+		label_11.setFont(new Font("Calibri", Font.BOLD, 13));
+		label_11.setBounds(420, 310, 46, 21);
+		contentPane.add(label_11);
+		
+		JSlider armorXOffset = new JSlider();
+		armorXOffset.setValue(0);
+		armorXOffset.setPaintTicks(true);
+		armorXOffset.setPaintLabels(true);
+		armorXOffset.setMinimum(-20);
+		armorXOffset.setMaximum(20);
+		armorXOffset.setMajorTickSpacing(10);
+		armorXOffset.setBounds(410, 330, 151, 38);
+		contentPane.add(armorXOffset);
 		
 		//Accessories
 		JLabel lblAccessoryYOffset = new JLabel("Y Offset");
 		lblAccessoryYOffset.setFont(new Font("Calibri", Font.BOLD, 13));
 		lblAccessoryYOffset.setBounds(610, 245, 46, 21);
 		contentPane.add(lblAccessoryYOffset);
-		
-		JSlider accessoryXOffset = new JSlider();
-		accessoryXOffset.setValue(0);
-		accessoryXOffset.setPaintTicks(true);
-		accessoryXOffset.setPaintLabels(true);
-		accessoryXOffset.setMinimum(-20);
-		accessoryXOffset.setMaximum(20);
-		accessoryXOffset.setMajorTickSpacing(10);
-		accessoryXOffset.setBounds(600, 265, 151, 38);
-		contentPane.add(accessoryXOffset);
-		
-		JLabel lblAccessoryXOffset = new JLabel("X Offset");
-		lblAccessoryXOffset.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblAccessoryXOffset.setBounds(610, 310, 46, 21);
-		contentPane.add(lblAccessoryXOffset);
 		
 		JSlider accessoryYOffset = new JSlider();
 		accessoryYOffset.setValue(0);
@@ -643,8 +627,23 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		accessoryYOffset.setMinimum(-20);
 		accessoryYOffset.setMaximum(20);
 		accessoryYOffset.setMajorTickSpacing(10);
-		accessoryYOffset.setBounds(600, 330, 151, 38);
+		accessoryYOffset.setBounds(600, 265, 151, 38);
 		contentPane.add(accessoryYOffset);
+		
+		JLabel lblAccessoryXOffset = new JLabel("X Offset");
+		lblAccessoryXOffset.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblAccessoryXOffset.setBounds(610, 310, 46, 21);
+		contentPane.add(lblAccessoryXOffset);
+		
+		JSlider accessoryXOffset = new JSlider();
+		accessoryXOffset.setValue(0);
+		accessoryXOffset.setPaintTicks(true);
+		accessoryXOffset.setPaintLabels(true);
+		accessoryXOffset.setMinimum(-20);
+		accessoryXOffset.setMaximum(20);
+		accessoryXOffset.setMajorTickSpacing(10);
+		accessoryXOffset.setBounds(600, 330, 151, 38);
+		contentPane.add(accessoryXOffset);
 
 		JButton btnRandomPortrait = new JButton(BTNRANDOMPORTRAIT);
 		btnRandomPortrait.setFont(new Font("Calibri", Font.BOLD, 13));
@@ -665,23 +664,23 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		contentPane.add(exportFileName);
 		
 		//--------LISTENERS--------------------
-		hairXOffset.addChangeListener(this);
 		hairYOffset.addChangeListener(this);
-		faceXOffset.addChangeListener(this);
+		hairXOffset.addChangeListener(this);
 		faceYOffset.addChangeListener(this);
-		armorXOffset.addChangeListener(this);
+		faceXOffset.addChangeListener(this);
 		armorYOffset.addChangeListener(this);
-		accessoryXOffset.addChangeListener(this);
+		armorXOffset.addChangeListener(this);
 		accessoryYOffset.addChangeListener(this);
+		accessoryXOffset.addChangeListener(this);
 
-		sliders.add(hairXOffset);
 		sliders.add(hairYOffset);
-		sliders.add(faceXOffset);
+		sliders.add(hairXOffset);
 		sliders.add(faceYOffset);
-		sliders.add(armorXOffset);
+		sliders.add(faceXOffset);
 		sliders.add(armorYOffset);
-		sliders.add(accessoryXOffset);
+		sliders.add(armorXOffset);
 		sliders.add(accessoryYOffset);
+		sliders.add(accessoryXOffset);
 
 		
 		comboBox_hairs.addItemListener(this);
