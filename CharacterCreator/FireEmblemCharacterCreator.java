@@ -254,7 +254,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		setFont(new Font("Calibri", Font.BOLD, 12));
 		setTitle("Fire Emblem Character Creator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1060, 550); //was xx932x
+		setBounds(100, 100, 1230, 550); //was xx932x
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -419,7 +419,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		
 		//TOKEN BOX
 		tokenPanel = new ImagePanel(path + "resources/BlankTok.png");
-		tokenPanel.setBounds(224, 0, 128, 128);
+		tokenPanel.setBounds(224, 40, 128, 128);
 		contentPane.add(tokenPanel);
 		
 		
@@ -481,7 +481,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 
 		JButton btnRandomHair = new JButton(BTNRANDOMHAIR);
 		btnRandomHair.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnRandomHair.setBounds(40, 330, 202, 25);
+		btnRandomHair.setBounds(40, 330, 220, 25);
 		contentPane.add(btnRandomHair);
 		
 		JComboBox<String> comboBox_faces = new JComboBox<String>(faces.toArray(new String[faces.size()]));
@@ -492,7 +492,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 
 		JButton btnRandomFace = new JButton(BTNRANDOMFACE);
 		btnRandomFace.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnRandomFace.setBounds(270, 330, 202, 25);
+		btnRandomFace.setBounds(270, 330, 220, 25);
 		contentPane.add(btnRandomFace);
 		
 		JComboBox<String> comboBox_armors = new JComboBox<String>(armors.toArray(new String[armors.size()]));
@@ -503,7 +503,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 
 		JButton btnRandomArmor = new JButton(BTNRANDOMARMOR);
 		btnRandomArmor.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnRandomArmor.setBounds(500, 330, 202, 25);
+		btnRandomArmor.setBounds(500, 330, 220, 25);
 		contentPane.add(btnRandomArmor);
 		
 		JComboBox<String> comboBox_accessories = new JComboBox<String>(accessories.toArray(new String[accessories.size()]));
@@ -514,28 +514,29 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 
 		JButton btnRandomAccessory = new JButton(BTNRANDOMACCESSORY);
 		btnRandomAccessory.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnRandomAccessory.setBounds(730, 330, 202, 25);
+		btnRandomAccessory.setBounds(730, 330, 220, 25);
 		contentPane.add(btnRandomAccessory);
 		
 		JComboBox<String> comboBox_tokens = new JComboBox<String>(tokens.toArray(new String[tokens.size()]));
-		comboBox_tokens.setBounds(240, 142, 131, 20);
+		comboBox_tokens.setBounds(960, 220, 220, 100);
 		comboBox_tokens.setMaximumRowCount(12);
+		comboBox_tokens.setRenderer(renderer);
 		contentPane.add(comboBox_tokens);
 
 		JButton btnRandomToken = new JButton(BTNRANDOMTOKEN);
 		btnRandomToken.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnRandomToken.setBounds(236, 170, 140, 25);
+		btnRandomToken.setBounds(960, 330, 220, 25);
 		contentPane.add(btnRandomToken);
 		
 		JLabel lblToken = new JLabel("Token");
 		lblToken.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblToken.setBounds(234, 125, 46, 21);
+		lblToken.setBounds(960, 202, 46, 21);
 		contentPane.add(lblToken);
 		
 		//---------XY OFFSET SLIDERS--------------------
 		JLabel lblYOffset = new JLabel("Y Offset");
 		lblYOffset.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblYOffset.setBounds(40, 360, 46, 21);
+		lblYOffset.setBounds(50, 360, 46, 21);
 		contentPane.add(lblYOffset);
 
 		JSlider hairYOffset = new JSlider();
@@ -545,12 +546,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		hairYOffset.setMajorTickSpacing(10);
 		hairYOffset.setMaximum(20);
 		hairYOffset.setMinimum(-20);
-		hairYOffset.setBounds(30, 380, 220, 38);
+		hairYOffset.setBounds(40, 380, 220, 38);
 		contentPane.add(hairYOffset);
 		
 		JLabel lblXOffset = new JLabel("X Offset");
 		lblXOffset.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblXOffset.setBounds(40, 430, 46, 21);
+		lblXOffset.setBounds(50, 430, 46, 21);
 		contentPane.add(lblXOffset);
 		
 		JSlider hairXOffset = new JSlider();
@@ -560,12 +561,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		hairXOffset.setMinimum(-20);
 		hairXOffset.setMaximum(20);
 		hairXOffset.setMajorTickSpacing(10);
-		hairXOffset.setBounds(30, 450, 220, 38);
+		hairXOffset.setBounds(40, 450, 220, 38);
 		contentPane.add(hairXOffset);
 
 		JLabel label_2 = new JLabel("Y Offset");
 		label_2.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_2.setBounds(270, 360, 46, 21);
+		label_2.setBounds(280, 360, 46, 21);
 		contentPane.add(label_2);
 		
 		JSlider faceYOffset = new JSlider();
@@ -575,12 +576,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		faceYOffset.setMinimum(-20);
 		faceYOffset.setMaximum(20);
 		faceYOffset.setMajorTickSpacing(10);
-		faceYOffset.setBounds(260, 380, 220, 38);
+		faceYOffset.setBounds(270, 380, 220, 38);
 		contentPane.add(faceYOffset);
 		
 		JLabel label_5 = new JLabel("X Offset");
 		label_5.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_5.setBounds(270, 430, 46, 21);
+		label_5.setBounds(280, 430, 46, 21);
 		contentPane.add(label_5);
 		
 		JSlider faceXOffset = new JSlider();
@@ -590,12 +591,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		faceXOffset.setMinimum(-20);
 		faceXOffset.setMaximum(20);
 		faceXOffset.setMajorTickSpacing(10);
-		faceXOffset.setBounds(260, 450, 220, 38);
+		faceXOffset.setBounds(270, 450, 220, 38);
 		contentPane.add(faceXOffset);
 		
 		JLabel label_8 = new JLabel("Y Offset");
 		label_8.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_8.setBounds(500, 360, 46, 21);
+		label_8.setBounds(510, 360, 46, 21);
 		contentPane.add(label_8);
 		
 		JSlider armorYOffset = new JSlider();
@@ -605,12 +606,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		armorYOffset.setMinimum(-20);
 		armorYOffset.setMaximum(20);
 		armorYOffset.setMajorTickSpacing(10);
-		armorYOffset.setBounds(490, 380, 220, 38);
+		armorYOffset.setBounds(500, 380, 220, 38);
 		contentPane.add(armorYOffset);
 		
 		JLabel label_11 = new JLabel("X Offset");
 		label_11.setFont(new Font("Calibri", Font.BOLD, 13));
-		label_11.setBounds(500, 430, 46, 21);
+		label_11.setBounds(510, 430, 46, 21);
 		contentPane.add(label_11);
 		
 		JSlider armorXOffset = new JSlider();
@@ -620,13 +621,13 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		armorXOffset.setMinimum(-20);
 		armorXOffset.setMaximum(20);
 		armorXOffset.setMajorTickSpacing(10);
-		armorXOffset.setBounds(490, 450, 220, 38);
+		armorXOffset.setBounds(500, 450, 220, 38);
 		contentPane.add(armorXOffset);
 		
 		//Accessories
 		JLabel lblAccessoryYOffset = new JLabel("Y Offset");
 		lblAccessoryYOffset.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblAccessoryYOffset.setBounds(730, 360, 46, 21);
+		lblAccessoryYOffset.setBounds(740, 360, 46, 21);
 		contentPane.add(lblAccessoryYOffset);
 		
 		JSlider accessoryYOffset = new JSlider();
@@ -636,12 +637,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		accessoryYOffset.setMinimum(-20);
 		accessoryYOffset.setMaximum(20);
 		accessoryYOffset.setMajorTickSpacing(10);
-		accessoryYOffset.setBounds(720, 380, 220, 38);
+		accessoryYOffset.setBounds(730, 380, 220, 38);
 		contentPane.add(accessoryYOffset);
 		
 		JLabel lblAccessoryXOffset = new JLabel("X Offset");
 		lblAccessoryXOffset.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblAccessoryXOffset.setBounds(730, 430, 46, 21);
+		lblAccessoryXOffset.setBounds(740, 430, 46, 21);
 		contentPane.add(lblAccessoryXOffset);
 		
 		JSlider accessoryXOffset = new JSlider();
@@ -651,25 +652,25 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		accessoryXOffset.setMinimum(-20);
 		accessoryXOffset.setMaximum(20);
 		accessoryXOffset.setMajorTickSpacing(10);
-		accessoryXOffset.setBounds(720, 450, 220, 38);
+		accessoryXOffset.setBounds(730, 450, 220, 38);
 		contentPane.add(accessoryXOffset);
 
 		JButton btnRandomPortrait = new JButton(BTNRANDOMPORTRAIT);
-		btnRandomPortrait.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnRandomPortrait.setBounds(905,150,130,40);
+		btnRandomPortrait.setFont(new Font("Calibri", Font.BOLD, 20));
+		btnRandomPortrait.setBounds(960,380,220,80);
 		contentPane.add(btnRandomPortrait);
 
 		JButton btnExport = new JButton(BTNEXPORT);
 		btnExport.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnExport.setBounds(905,100,130,40);
+		btnExport.setBounds(960,100,220,40);
 		contentPane.add(btnExport);
 		
 		JLabel lblFileName = new JLabel("File Name");
 		lblFileName.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblFileName.setBounds(905, 40,113,21);
+		lblFileName.setBounds(960, 40,113,21);
 		contentPane.add(lblFileName);
 		//JTextField exportFileName = new JTextField();
-		exportFileName.setBounds(905,60,130,21);
+		exportFileName.setBounds(960,60,220,21);
 		contentPane.add(exportFileName);
 		
 		//--------LISTENERS--------------------

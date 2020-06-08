@@ -4,5 +4,6 @@ This is a fork of cyaggi's fork of TheFlyingMinotaur's original version. All cre
 
 - Added a randomize button for each dropdown.
 - Added a button to randomize the entire portrait.
+- Changed the dropdowns to include an image along with the filename.
 
 ![UI](/FECCv3.png)
