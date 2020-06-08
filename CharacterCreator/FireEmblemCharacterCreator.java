@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -137,6 +138,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 	private static final String BTNCLOTHCOLOR = "Cloth Color";
 	private static final String BTNLEATHERCOLOR = "Leather Color";
 	private static final String BTNACCESSORYCOLOR = "Accessory Color";
+	private static final String BTNRANDOMPORTRAIT = "Random Portrait";
 	
 	File folder;
 	File[] listOfFiles;
@@ -613,10 +615,15 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		accessoryYOffset.setMajorTickSpacing(10);
 		accessoryYOffset.setBounds(600, 330, 151, 38);
 		contentPane.add(accessoryYOffset);
-		
+
+		JButton btnRandomPortrait = new JButton(BTNRANDOMPORTRAIT);
+		btnRandomPortrait.setFont(new Font("Calibri", Font.BOLD, 13));
+		btnRandomPortrait.setBounds(770,265,130,50);
+		contentPane.add(btnRandomPortrait);
+
 		JButton btnExport = new JButton(BTNEXPORT);
 		btnExport.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnExport.setBounds(770, 265, 113, 38);
+		btnExport.setBounds(770,320,130,50);
 		contentPane.add(btnExport);
 		
 		JLabel lblFileName = new JLabel("File Name");
@@ -658,7 +665,8 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		boxes.add(comboBox_armors);
 		boxes.add(comboBox_tokens);
 		boxes.add(comboBox_accessories);
-		
+
+		btnRandomPortrait.addActionListener(this);
 		btnExport.addActionListener(this);
 		
 	}
@@ -1268,9 +1276,15 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 					accessoryRectB.setBackground(accessoryColor.brighter());
 					accessoryRect.setBackground(accessoryColor);
 					accessoryRectD.setBackground(accessoryColor.darker());
-				break;	
+				break;
+			case BTNRANDOMPORTRAIT:
+				System.out.println("hey");
+				for (JComboBox box : boxes) {
+					if (boxes.indexOf(box) != 3) {
+						randomizeComboBox(box);
+					}
+				}
 			}
-			
 			
 			drawImages();
 			portraitPanel.setImage(portrait);
@@ -1279,6 +1293,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 			tokenPanel.repaint();
 		}
 
+	}
+
+	private void randomizeComboBox(JComboBox box) {
+		Random random = new Random();
+		int index = random.nextInt(box.getItemCount());
+		box.setSelectedIndex(index);
 	}
 	
 }
