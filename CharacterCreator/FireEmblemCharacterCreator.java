@@ -736,7 +736,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				if(pixel.getAlpha()==0){
 					continue;
 				}
-				newPixel = pixelParser(pixel);
+				newPixel = pixelParser(pixel, false);
 				//newPixel = pixel;
 				//System.out.println(newPixel.getRed());
 				
@@ -756,7 +756,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				if(pixel.getAlpha()==0){
 					continue;
 				}
-				newPixel = pixelParser(pixel);
+				newPixel = pixelParser(pixel, false);
 				//newPixel = pixel;
 				portrait.setRGB(i*2, j*2, newPixel.getRGB());
 				portrait.setRGB(i*2+1, j*2, newPixel.getRGB());
@@ -773,7 +773,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				if(pixel.getAlpha()==0){
 					continue;
 				}
-				newPixel = facePixelParser(pixel);
+				newPixel = pixelParser(pixel, true);
 				//newPixel = pixel;
 				portrait.setRGB(i*2, j*2, newPixel.getRGB());
 				portrait.setRGB(i*2+1, j*2, newPixel.getRGB());
@@ -787,7 +787,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				if (i-hairYOffsetVal <0 || i- hairYOffsetVal>95) continue;
 				if (j+hairXOffsetVal<0 || j+ hairXOffsetVal>95)continue;
 				pixel = new Color(hair.getRGB(i-hairYOffsetVal, j+hairXOffsetVal),true);
-				newPixel = pixelParser(pixel);
+				newPixel = pixelParser(pixel, false);
 				if(pixel.getAlpha()==0){
 					continue;
 				}
@@ -804,7 +804,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 						if (i-accessoryYOffsetVal <0 || i- accessoryYOffsetVal>95) continue;
 						if (j+accessoryXOffsetVal<0 || j+ accessoryXOffsetVal>95)continue;
 						pixel = new Color(accessory.getRGB(i-accessoryYOffsetVal, j+accessoryXOffsetVal),true);
-						newPixel = facePixelParser(pixel);
+						newPixel = pixelParser(pixel, false);
 						if(pixel.getAlpha()==0){
 							continue;
 						}
@@ -822,7 +822,7 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				if(pixel.getAlpha()==0){
 					continue;
 				}
-				newPixel = pixelParser(pixel);
+				newPixel = pixelParser(pixel, false);
 				//System.out.println(pixel.getRed() + " " + pixel.getGreen() + " " + pixel.getBlue());
 				//newPixel = pixel;
 				token.setRGB(i*2, j*2, newPixel.getRGB());
@@ -838,27 +838,30 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 		//The included images all have red values corresponding to what they are.
 		//This is why eye and hair color match, because they share the same range of values (1-3)
 		//E.g. face color is 51, the lighter parts are 42, and darker parts are 60+, corresponding to case 4-8.
-			//Given that the max value is 25 (255), if the image eyes were changed to have red values above 210,
-			//they could be separated from the hair
-			//Alternatively, if the pixel could be confirmed as part of the hair or face, a simple if statement would fix it
+		//If the pixels belong to the face, then hair color is replaced by eye color.
 	
-	Color pixelParser(Color pixel){
+	Color pixelParser(Color pixel, boolean isFace){
 		Color newPixel = null;
-		//double check this line 
+
 		if(pixel.getAlpha() == 0){
 			newPixel = blankColor;
 			return newPixel;
+		}
+
+		Color hairOrEyeColor = hairColor;
+		if (isFace) {
+			hairOrEyeColor = eyeColor;
 		}
 		int redIndex = pixel.getRed()/10; 
 				//System.out.println(redIndex);
 		switch(redIndex){
 		case 0: newPixel = outlineColor;
 				break;
-		case 1: newPixel = hairColor.brighter();
+		case 1: newPixel = hairOrEyeColor.brighter();
 				break;
-		case 2: newPixel = hairColor;
+		case 2: newPixel = hairOrEyeColor;
 				break;
-		case 3: newPixel = hairColor.darker();
+		case 3: newPixel = hairOrEyeColor.darker();
 				break;
 		case 4: newPixel = skinColor.brighter();
 				break;
@@ -894,65 +897,12 @@ public class FireEmblemCharacterCreator extends JFrame implements ChangeListener
 				break;
 		case 20: newPixel = leatherColor.darker();
 				break;
-		default: newPixel = Color.WHITE;
-		}
-		return newPixel;
-	}
-	
-	Color facePixelParser(Color pixel){ //Currently used for face and accessory
-		Color newPixel = null;
-		//double check this line 
-		if(pixel.getAlpha() == 0){
-			newPixel = blankColor;
-			return newPixel;
-		}
-		int redIndex = pixel.getRed()/10; 
-				//System.out.println(redIndex);
-		switch(redIndex){
-		case 0: newPixel = outlineColor;
-				break;
-		case 1: newPixel = eyeColor.brighter();
-				break;
-		case 2: newPixel = eyeColor;
-				break;
-		case 3: newPixel = eyeColor.darker();
-				break;
-		case 4: newPixel = skinColor.brighter();
-				break;
-		case 5: newPixel = skinColor;
-				break;
-		case 6: newPixel = skinColor.darker();
-				break;
-		case 7: newPixel = skinColor.darker().darker();
-				break;
-		case 8: newPixel = skinColor.darker().darker().darker();
-				break;
-		case 9: newPixel = accessoryColor.brighter();
-				break;
-		case 10: newPixel = accessoryColor;
-				break;
-		case 11: newPixel = accessoryColor.darker();
-				break;
-				
-				//12-20 shouldn't get used, but I'll keep them for now
-		case 12: newPixel = trimColor.brighter();
-				break;
-		case 13: newPixel = trimColor;
-				break;
-		case 14: newPixel = trimColor.darker();
-				break;
-		case 15: newPixel = clothColor.brighter();
-				break;
-		case 16: newPixel = clothColor;
-				break;
-		case 17: newPixel = clothColor.darker();
-				break;
-		case 18: newPixel = leatherColor.brighter();
-				break;
-		case 19: newPixel = leatherColor;
-				break;
-		case 20: newPixel = leatherColor.darker();
-				break;
+		case 21: newPixel = accessoryColor.brighter();
+			break;
+		case 22: newPixel = accessoryColor;
+			break;
+		case 23: newPixel = accessoryColor.darker();
+			break;
 		default: newPixel = Color.WHITE;
 		}
 		return newPixel;
