@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="CharacterCreatorRelease_jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/CharacterCreatorRelease_jar/CharacterCreatorRelease.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/CharacterCreatorRelease_jar/CharacterCreatorReleaseJAVA8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
